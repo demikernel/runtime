@@ -12,5 +12,6 @@ extern crate derive_more;
 pub mod fail;
 pub mod memory;
 pub mod queue;
+pub mod types;
 
 pub use self::memory::Buffer as RuntimeBuf;

@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 
-name: Test
+name: Build
 
 concurrency:
   group: azure
@@ -50,7 +50,7 @@ jobs:
   # Demikernel 0
   setup-demikernel0:
     name: Demikernel 0
-    uses: demikernel/runtime/.github/workflows/setup.yml@dev
+    uses: demikernel/pingpong/.github/workflows/setup.yml@dev
     secrets:
       host: ${{ secrets.HOSTNAME_A }}
       port: ${{ secrets.PORTNUM_A }}
@@ -60,7 +60,7 @@ jobs:
   # Demikernel 1
   setup-demikernel1:
     name: Demikernel 1
-    uses: demikernel/runtime/.github/workflows/setup.yml@dev
+    uses: demikernel/pingpong/.github/workflows/setup.yml@dev
     secrets:
       host: ${{ secrets.HOSTNAME_B }}
       port: ${{ secrets.PORTNUM_B }}
@@ -75,7 +75,7 @@ jobs:
   build-demikernel0:
     name: Demikernel 0
     needs: [setup-demikernel0]
-    uses: demikernel/runtime/.github/workflows/compile.yml@dev
+    uses: demikernel/pingpong/.github/workflows/compile.yml@dev
     secrets:
       host: ${{ secrets.HOSTNAME_A }}
       port: ${{ secrets.PORTNUM_A }}
@@ -86,33 +86,7 @@ jobs:
   build-demikernel1:
     name: Demikernel 1
     needs: [setup-demikernel1]
-    uses: demikernel/runtime/.github/workflows/compile.yml@dev
-    secrets:
-      host: ${{ secrets.HOSTNAME_B }}
-      port: ${{ secrets.PORTNUM_B }}
-      key: ${{ secrets.SSHKEY }}
-      username: ${{ secrets.USERNAME }}
-
-  #====================
-  # Launch
-  #====================
-
-  # Demikernel 0
-  run-demikernel0:
-    name: Demikernel 0
-    needs: [build-demikernel0]
-    uses: demikernel/runtime/.github/workflows/run.yml@dev
-    secrets:
-      host: ${{ secrets.HOSTNAME_A }}
-      port: ${{ secrets.PORTNUM_A }}
-      key: ${{ secrets.SSHKEY }}
-      username: ${{ secrets.USERNAME }}
-
-  # Demikernel 1
-  run-demikernel1:
-    name: Demikernel 1
-    needs: [build-demikernel1]
-    uses: demikernel/runtime/.github/workflows/run.yml@dev
+    uses: demikernel/pingpong/.github/workflows/compile.yml@dev
     secrets:
       host: ${{ secrets.HOSTNAME_B }}
       port: ${{ secrets.PORTNUM_B }}
@@ -126,8 +100,8 @@ jobs:
   # Demikernel 0
   cleanup-demikernel0:
     name: Demikernel 0
-    needs: [run-demikernel0]
-    uses: demikernel/runtime/.github/workflows/cleanup.yml@dev
+    needs: [build-demikernel0]
+    uses: demikernel/pingpong/.github/workflows/cleanup.yml@dev
     secrets:
       host: ${{ secrets.HOSTNAME_A }}
       port: ${{ secrets.PORTNUM_A }}
@@ -137,8 +111,8 @@ jobs:
   # Demikernel 1
   cleanup-demikernel1:
     name: Demikernel 1
-    needs: [run-demikernel1]
-    uses: demikernel/runtime/.github/workflows/cleanup.yml@dev
+    needs: [build-demikernel1]
+    uses: demikernel/pingpong/.github/workflows/cleanup.yml@dev
     secrets:
       host: ${{ secrets.HOSTNAME_B }}
       port: ${{ secrets.PORTNUM_B }}

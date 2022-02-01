@@ -1,0 +1,28 @@
+[package]
+name = "runtime"
+version = "0.1.0"
+authors = [ "Microsoft Corporation" ]
+description = "Runtime for Demikernel"
+homepage = "https://aka.ms/demikernel"
+repository = "https://github.com/demikernel/catnip"
+readme = "README.md"
+license-file = "LICENSE"
+edition = "2018"
+
+[dependencies]
+arrayvec = "0.7.2"
+custom_error = "1.9.2"
+eui48 = "1.1.0"
+float_duration = "0.3.3"
+libc = "0.2.115"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+opt-level = 3
+debug = false
+debug-assertions = false
+overflow-checks = false
+incremental = false
+rpath = false

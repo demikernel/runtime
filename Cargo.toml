@@ -12,9 +12,11 @@ edition = "2018"
 [dependencies]
 arrayvec = "0.7.2"
 custom_error = "1.9.2"
+derive_more = "0.99.17"
 eui48 = "1.1.0"
 float_duration = "0.3.3"
 libc = "0.2.115"
+slab = "0.4.5"
 
 [profile.release]
 lto = "fat"

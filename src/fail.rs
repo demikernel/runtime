@@ -1,15 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// TODO: Improve documentation of this module.
+//==============================================================================
+// Imports
+//==============================================================================
 
-use custom_error::custom_error;
-use float_duration;
-use std::{cell::BorrowMutError, io::Error as IoError, num::TryFromIntError};
+use ::custom_error::custom_error;
+use ::float_duration;
+use ::std::{cell::BorrowMutError, io::Error as IoError, num::TryFromIntError};
+
+//==============================================================================
+// Types
+//==============================================================================
 
 // the following type alias is needed because the `custom_error!` macro doesn't
 // allow `&` in type specifications.
 type Str = &'static str;
+
+//==============================================================================
+// Macros
+//==============================================================================
 
 custom_error! {#[derive(Clone, PartialEq)] pub Fail
     ConnectionAborted{} = "connection aborted",
@@ -35,41 +45,11 @@ custom_error! {#[derive(Clone, PartialEq)] pub Fail
     BadFileDescriptor {} = "bad file descriptor",
 }
 
-impl From<IoError> for Fail {
-    fn from(_: IoError) -> Self {
-        Fail::IoError {}
-    }
-}
+//==============================================================================
+// Associate Functions
+//==============================================================================
 
-impl From<BorrowMutError> for Fail {
-    fn from(_: BorrowMutError) -> Self {
-        Fail::BorrowMutError {}
-    }
-}
-
-impl From<float_duration::error::OutOfRangeError> for Fail {
-    fn from(_: float_duration::error::OutOfRangeError) -> Self {
-        Fail::OutOfRange {
-            details: "float_duration::error::OutOfRangeError",
-        }
-    }
-}
-
-impl From<TryFromIntError> for Fail {
-    fn from(_: TryFromIntError) -> Self {
-        Fail::OutOfRange {
-            details: "std::num::TryFromIntError",
-        }
-    }
-}
-
-impl From<eui48::ParseError> for Fail {
-    fn from(_: eui48::ParseError) -> Self {
-        Fail::Invalid {
-            details: "Failed to parse MAC Address",
-        }
-    }
-}
+/// Associate Functions for Fail
 impl Fail {
     pub fn errno(&self) -> libc::c_int {
         match self {
@@ -94,6 +74,51 @@ impl Fail {
             Fail::AddressFamilySupport { .. } => libc::EAFNOSUPPORT,
             Fail::SocketTypeSupport { .. } => libc::ESOCKTNOSUPPORT,
             Fail::BadFileDescriptor { .. } => libc::EBADF,
+        }
+    }
+}
+
+//==============================================================================
+// Trait Implementations
+//==============================================================================
+
+/// Conversion Trait Implementation for Fail
+impl From<IoError> for Fail {
+    fn from(_: IoError) -> Self {
+        Fail::IoError {}
+    }
+}
+
+/// Conversion Trait Implementation for Fail
+impl From<BorrowMutError> for Fail {
+    fn from(_: BorrowMutError) -> Self {
+        Fail::BorrowMutError {}
+    }
+}
+
+/// Conversion Trait Implementation for Fail
+impl From<float_duration::error::OutOfRangeError> for Fail {
+    fn from(_: float_duration::error::OutOfRangeError) -> Self {
+        Fail::OutOfRange {
+            details: "float_duration::error::OutOfRangeError",
+        }
+    }
+}
+
+/// Conversion Trait Implementation for Fail
+impl From<TryFromIntError> for Fail {
+    fn from(_: TryFromIntError) -> Self {
+        Fail::OutOfRange {
+            details: "std::num::TryFromIntError",
+        }
+    }
+}
+
+/// Conversion Trait Implementation for Fail
+impl From<eui48::ParseError> for Fail {
+    fn from(_: eui48::ParseError) -> Self {
+        Fail::Invalid {
+            details: "Failed to parse MAC Address",
         }
     }
 }

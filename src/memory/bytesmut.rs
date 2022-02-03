@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-use super::Bytes;
-use crate::fail::Fail;
-use std::{
+//==============================================================================
+// Imports
+//==============================================================================
+
+use crate::{fail::Fail, memory::Bytes};
+use ::std::{
     fmt::{self, Debug},
     ops::{Deref, DerefMut},
     sync::Arc,

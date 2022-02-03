@@ -1,9 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-use std::{fmt::Debug, ops::Deref};
+//==============================================================================
+// Imports
+//==============================================================================
 
-/// Demikernel Buffer
+use ::std::{fmt::Debug, ops::Deref};
+
+//==============================================================================
+// Traits
+//==============================================================================
+
+/// Memory Buffer
 pub trait Buffer: Clone + Debug + Deref<Target = [u8]> + Sized + Unpin {
     /// Creates an empty [Buffer].
     fn empty() -> Self;

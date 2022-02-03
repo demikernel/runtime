@@ -5,31 +5,41 @@ mod buffer;
 mod bytes;
 mod bytesmut;
 
-pub use buffer::Buffer;
-pub use bytes::Bytes;
-pub use bytesmut::BytesMut;
-
 #[cfg(test)]
-mod tests {
-    use super::Buffer;
-    use super::Bytes;
-    use std::sync::Arc;
+mod tests;
 
-    /// Tests for buffer adjust.
-    #[test]
-    fn buf_adjust() {
-        let data: [u8; 4] = [1, 2, 3, 4];
-        let mut buf = Bytes::new(Some(Arc::new(data)), 0, 4);
-        buf.adjust(2);
-        assert_eq!(*buf, data[2..]);
-    }
+//==============================================================================
+// Imports
+//==============================================================================
 
-    /// Tests for buffer trim.
-    #[test]
-    fn buf_trim() {
-        let data: [u8; 4] = [1, 2, 3, 4];
-        let mut buf = Bytes::new(Some(Arc::new(data)), 0, 4);
-        buf.trim(2);
-        assert_eq!(*buf, data[..2]);
-    }
+use crate::types::dmtr_sgarray_t;
+
+//==============================================================================
+// Exports
+//==============================================================================
+
+pub use self::buffer::Buffer;
+pub use self::bytes::Bytes;
+pub use self::bytesmut::BytesMut;
+
+//==============================================================================
+// Traits
+//==============================================================================
+
+/// Memory Runtime
+pub trait MemoryRuntime {
+    /// Memory Buffer
+    type Buf: Buffer;
+
+    /// Creates a [dmtr_sgarray_t] from a [Buffer].
+    fn into_sgarray(&self, buf: Self::Buf) -> dmtr_sgarray_t;
+
+    /// Allocates a [dmtr_sgarray_t].
+    fn alloc_sgarray(&self, size: usize) -> dmtr_sgarray_t;
+
+    /// Releases a [dmtr_sgarray_t].
+    fn free_sgarray(&self, sga: dmtr_sgarray_t);
+
+    /// Clones a [dmtr_sgarray_t] into a [Buffer].
+    fn clone_sgarray(&self, sga: &dmtr_sgarray_t) -> Self::Buf;
 }

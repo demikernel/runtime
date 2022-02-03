@@ -7,6 +7,7 @@
 
 use crate::{
     network::config::{ArpConfig, TcpConfig, UdpConfig},
+    network::consts::RECEIVE_BATCH_SIZE,
     network::types::{Ipv4Addr, MacAddress},
     MemoryRuntime,
 };
@@ -38,17 +39,11 @@ pub trait PacketBuf<T>: Sized {
 
 /// Network Runtime
 pub trait NetworkRuntime: MemoryRuntime {
-    /// Packet Buffers
-    type PacketBuffer: PacketBuf<Self::Buf>;
-
-    /// Length of a [PacketBuf] batch.
-    const RECEIVE_BATCH_SIZE: usize;
-
     /// Transmits a single [PacketBuf].
-    fn transmit(&self, pkt: Self::PacketBuffer);
+    fn transmit(&self, pkt: impl PacketBuf<Self::Buf>);
 
     /// Receives a batch of [PacketBuf].
-    fn receive(&self) -> ArrayVec<Self::Buf, { Self::RECEIVE_BATCH_SIZE }>;
+    fn receive(&self) -> ArrayVec<Self::Buf, RECEIVE_BATCH_SIZE>;
 
     /// Returns the [MacAddress] of the local endpoint.
     fn local_link_addr(&self) -> MacAddress;

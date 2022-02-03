@@ -33,6 +33,18 @@ cargo build
 cargo test
 ```
 
+Documentation
+--------------
+
+- Checkout UML Diagrams in `etc/img`
+- Checkout API Documentation (see instructions bellow)
+
+**1. Build API Documentation (Optional)**
+```
+cargo doc --no-deps    # Build API Documentation
+cargo doc --open       # Open API Documentation
+```
+
 Code of Conduct
 ---------------
 

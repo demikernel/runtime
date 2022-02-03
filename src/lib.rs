@@ -9,9 +9,6 @@
 #![deny(clippy::all)]
 #![feature(new_uninit)]
 #![feature(test)]
-// The following two features are on their way to get implemented.
-#![feature(const_evaluatable_checked)]
-#![feature(const_generics)]
 
 //==============================================================================
 // Imports

@@ -36,7 +36,7 @@ cargo test
 Documentation
 --------------
 
-- Checkout UML Diagrams in `etc/img`
+- Checkout UML Documentation in [`etc/README.md`](./etc/README.md)
 - Checkout API Documentation (see instructions bellow)
 
 **1. Build API Documentation (Optional)**

@@ -17,6 +17,7 @@ eui48 = "1.1.0"
 float_duration = "0.3.3"
 libc = "0.2.115"
 slab = "0.4.5"
+rand = { version = "0.8.4", features = ["small_rng"] }
 
 [profile.release]
 lto = "fat"

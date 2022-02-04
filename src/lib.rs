@@ -17,6 +17,8 @@
 #[macro_use]
 extern crate derive_more;
 
+use task::SchedulerRuntime;
+
 //==============================================================================
 // Exports
 //==============================================================================
@@ -25,6 +27,7 @@ pub mod fail;
 pub mod memory;
 pub mod network;
 pub mod queue;
+pub mod task;
 pub mod types;
 pub mod utils;
 pub use self::memory::Buffer as RuntimeBuf;
@@ -36,3 +39,13 @@ pub use self::{
     },
     utils::UtilsRuntime,
 };
+
+//==============================================================================
+// Traits
+//==============================================================================
+
+/// Demikernel Runtime
+pub trait Runtime:
+    Clone + Unpin + SchedulerRuntime + UtilsRuntime + NetworkRuntime + MemoryRuntime + 'static
+{
+}

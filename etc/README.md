@@ -6,6 +6,7 @@ Architectural Diagrams
 - [Utils Module (`runtime::utils`)](#utils-module)
 - [Memory Module (`runtime::memory`)](#memory-module)
 - [Network Module (`runtime::network`)](#network-module)
+- [Task Module (`runtime::task`)](#task-module)
 
 Package Overview
 -----------------
@@ -26,3 +27,7 @@ Memory Module
 Network Module
 ---------------
 ![Network Module](./img/runtime-network.png)
+
+Task Module
+------------
+![Task Module](./img/runtime-task.png)

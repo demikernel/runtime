@@ -17,7 +17,9 @@
 #[macro_use]
 extern crate derive_more;
 
-use task::SchedulerRuntime;
+use self::{
+    memory::MemoryRuntime, network::NetworkRuntime, task::SchedulerRuntime, utils::UtilsRuntime,
+};
 
 //==============================================================================
 // Exports
@@ -30,15 +32,6 @@ pub mod queue;
 pub mod task;
 pub mod types;
 pub mod utils;
-pub use self::memory::Buffer as RuntimeBuf;
-pub use self::{
-    memory::MemoryRuntime,
-    network::{
-        types::{Ipv4Addr, MacAddress},
-        NetworkRuntime, PacketBuf,
-    },
-    utils::UtilsRuntime,
-};
 
 //==============================================================================
 // Traits

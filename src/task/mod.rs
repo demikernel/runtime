@@ -32,7 +32,7 @@ pub trait SchedulerRuntime {
     fn advance_clock(&self, now: Instant);
 
     /// Spawns a new task.
-    fn spawn<F: Future<Output = ()> + 'static>(&self, future: F) -> SchedulerHandle;
+    fn spawn<F: SchedulerFuture>(&self, future: F) -> SchedulerHandle;
 
     /// Schedules a task for execution.
     fn schedule<F: SchedulerFuture>(&self, future: F) -> SchedulerHandle;

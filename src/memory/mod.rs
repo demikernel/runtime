@@ -18,9 +18,7 @@ use crate::types::dmtr_sgarray_t;
 // Exports
 //==============================================================================
 
-pub use self::buffer::Buffer;
-pub use self::bytes::Bytes;
-pub use self::bytesmut::BytesMut;
+pub use self::{buffer::Buffer, bytes::Bytes, bytesmut::BytesMut};
 
 //==============================================================================
 // Traits

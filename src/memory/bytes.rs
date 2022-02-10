@@ -55,6 +55,25 @@ impl PartialEq for Bytes {
 /// Equality Trait Implementation for Non-Mutable Buffers
 impl Eq for Bytes {}
 
+/// Debug Trait Implementation for Non-Mutable Buffers
+impl Debug for Bytes {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Bytes({:?})", &self[..])
+    }
+}
+
+/// De-Reference Trait Implementation for Non-Mutable Buffers
+impl Deref for Bytes {
+    type Target = [u8];
+
+    fn deref(&self) -> &[u8] {
+        match self.data {
+            None => &[],
+            Some(ref buf) => &buf[self.offset..(self.offset + self.len)],
+        }
+    }
+}
+
 /// Buffer Trait Implementation for Non-Mutable Buffers
 impl Buffer for Bytes {
     /// Creates an empty [Buffer].
@@ -90,24 +109,5 @@ impl Buffer for Bytes {
             );
         }
         self.len -= nbytes;
-    }
-}
-
-/// Debug Trait Implementation for Non-Mutable Buffers
-impl Debug for Bytes {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Bytes({:?})", &self[..])
-    }
-}
-
-/// De-Reference Trait Implementation for Non-Mutable Buffers
-impl Deref for Bytes {
-    type Target = [u8];
-
-    fn deref(&self) -> &[u8] {
-        match self.data {
-            None => &[],
-            Some(ref buf) => &buf[self.offset..(self.offset + self.len)],
-        }
     }
 }

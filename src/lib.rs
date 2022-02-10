@@ -17,6 +17,8 @@
 #[macro_use]
 extern crate derive_more;
 
+extern crate test;
+
 use self::{
     memory::MemoryRuntime, network::NetworkRuntime, task::SchedulerRuntime, utils::UtilsRuntime,
 };

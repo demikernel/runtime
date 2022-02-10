@@ -15,6 +15,9 @@ all:
 test:
 	$(CARGO) test $(BUILD) $(CARGO_FLAGS) $(TEST) -- --nocapture
 
+bench:
+	$(CARGO) bench $(CARGO_FLAGS) $(TEST)
+
 clean:
 	rm -rf target && \
 	$(CARGO) clean && \

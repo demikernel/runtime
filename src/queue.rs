@@ -4,15 +4,22 @@
 use slab::Slab;
 
 //==============================================================================
-// Constants & Structures
+// Structures
 //==============================================================================
 
 /// IO Queue Types
+///
+/// TODO: we should drop this and make queue type specialization be outsourced.
+#[deprecated]
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum IoQueueType {
     TcpSocket,
     UdpSocket,
 }
+
+//==============================================================================
+// Structures
+//==============================================================================
 
 /// IO Queue Descriptor
 #[derive(From, Into, Debug, Eq, PartialEq, Hash, Copy, Clone)]
@@ -24,57 +31,55 @@ pub struct IoQueueTable {
 }
 
 //==============================================================================
-// Trait Implementations
-//==============================================================================
-
-/// [From<IoQueueDescriptor>] trait for [i32]
-impl From<IoQueueDescriptor> for i32 {
-    fn from(val: IoQueueDescriptor) -> Self {
-        val.0 as i32
-    }
-}
-
-/// [From<i32>] trait for [IoQueueDescriptor]
-impl From<i32> for IoQueueDescriptor {
-    fn from(val: i32) -> Self {
-        IoQueueDescriptor(val as usize)
-    }
-}
-
-//==============================================================================
 // Associate Functions
 //==============================================================================
 
-/// Associate functions for [IO QueueTable].
+/// Associate Functions for IO Queue Tables
 impl IoQueueTable {
     /// Creates an IO queue table.
     pub fn new() -> Self {
         Self { table: Slab::new() }
     }
 
-    /// Allocates a new entry in the target IO queue descriptor table.
-    pub fn alloc(&mut self, file: IoQueueType) -> IoQueueDescriptor {
-        let ix = self.table.insert(file);
+    /// Allocates a new entry in the target [IoQueueTable].
+    pub fn alloc(&mut self, qtype: IoQueueType) -> IoQueueDescriptor {
+        let ix: usize = self.table.insert(qtype);
         IoQueueDescriptor(ix)
     }
 
     /// Gets the file associated with an IO queue descriptor.
-    pub fn get(&self, fd: IoQueueDescriptor) -> Option<IoQueueType> {
-        if !self.table.contains(fd.into()) {
+    pub fn get(&self, qd: IoQueueDescriptor) -> Option<IoQueueType> {
+        if !self.table.contains(qd.into()) {
             return None;
         }
 
-        self.table.get(fd.into()).cloned()
+        self.table.get(qd.into()).cloned()
     }
 
-    /// Releases an entry in the target IO queue descriptor table.
-    pub fn free(&mut self, fd: IoQueueDescriptor) -> Option<IoQueueType> {
-        if !self.table.contains(fd.into()) {
+    /// Releases an entry in the target [IoQueueTable].
+    pub fn free(&mut self, qd: IoQueueDescriptor) -> Option<IoQueueType> {
+        if !self.table.contains(qd.into()) {
             return None;
         }
 
-        let file = self.table.remove(fd.into());
+        Some(self.table.remove(qd.into()))
+    }
+}
 
-        Some(file)
+//==============================================================================
+// Trait Implementations
+//==============================================================================
+
+/// Convert Trait Implementation for Signed 32-bit Integers
+impl From<IoQueueDescriptor> for i32 {
+    fn from(val: IoQueueDescriptor) -> Self {
+        val.0 as i32
+    }
+}
+
+/// Convert Trait Implementation for IO Queue Descriptors
+impl From<i32> for IoQueueDescriptor {
+    fn from(val: i32) -> Self {
+        IoQueueDescriptor(val as usize)
     }
 }

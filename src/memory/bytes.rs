@@ -55,6 +55,25 @@ impl PartialEq for Bytes {
 /// Equality Trait Implementation for Non-Mutable Buffers
 impl Eq for Bytes {}
 
+/// Debug Trait Implementation for Non-Mutable Buffers
+impl Debug for Bytes {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Bytes({:?})", &self[..])
+    }
+}
+
+/// De-Reference Trait Implementation for Non-Mutable Buffers
+impl Deref for Bytes {
+    type Target = [u8];
+
+    fn deref(&self) -> &[u8] {
+        match self.data {
+            None => &[],
+            Some(ref buf) => &buf[self.offset..(self.offset + self.len)],
+        }
+    }
+}
+
 /// Buffer Trait Implementation for Non-Mutable Buffers
 impl Buffer for Bytes {
     /// Creates an empty [Buffer].
@@ -93,21 +112,30 @@ impl Buffer for Bytes {
     }
 }
 
-/// Debug Trait Implementation for Non-Mutable Buffers
-impl Debug for Bytes {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Bytes({:?})", &self[..])
+//==============================================================================
+// Unit Tests
+//==============================================================================
+
+#[cfg(test)]
+mod tests {
+    use super::{Buffer, Bytes};
+    use std::sync::Arc;
+
+    /// Tests for buffer adjust.
+    #[test]
+    fn buf_adjust() {
+        let data: [u8; 4] = [1, 2, 3, 4];
+        let mut buf: Bytes = Bytes::new(Some(Arc::new(data)), 0, 4);
+        buf.adjust(2);
+        assert_eq!(*buf, data[2..]);
     }
-}
 
-/// De-Reference Trait Implementation for Non-Mutable Buffers
-impl Deref for Bytes {
-    type Target = [u8];
-
-    fn deref(&self) -> &[u8] {
-        match self.data {
-            None => &[],
-            Some(ref buf) => &buf[self.offset..(self.offset + self.len)],
-        }
+    /// Tests for buffer trim.
+    #[test]
+    fn buf_trim() {
+        let data: [u8; 4] = [1, 2, 3, 4];
+        let mut buf: Bytes = Bytes::new(Some(Arc::new(data)), 0, 4);
+        buf.trim(2);
+        assert_eq!(*buf, data[..2]);
     }
 }

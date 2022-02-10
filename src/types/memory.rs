@@ -14,9 +14,7 @@ use ::libc::{c_void, sockaddr_in};
 //==============================================================================
 
 /// Maximum Length for Scatter-Gather Arrays
-///
-/// TODO: Rename this to `DMTR_SGARRAY_MAXLEN`
-pub const DMTR_SGARRAY_MAXSIZE: usize = 1;
+pub const DMTR_SGARRAY_MAXLEN: usize = 1;
 
 //==============================================================================
 // Structures

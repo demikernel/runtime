@@ -11,7 +11,7 @@ mod queue;
 
 pub use self::memory::dmtr_sgarray_t;
 pub use self::memory::dmtr_sgaseg_t;
-pub use self::memory::DMTR_SGARRAY_MAXSIZE;
+pub use self::memory::DMTR_SGARRAY_MAXLEN;
 pub use self::ops::dmtr_accept_result_t;
 pub use self::ops::dmtr_opcode_t;
 pub use self::ops::dmtr_qr_value_t;

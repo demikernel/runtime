@@ -7,8 +7,7 @@
 // Imports
 //==============================================================================
 
-use crate::types::memory::dmtr_sgarray_t;
-use crate::types::queue::dmtr_qtoken_t;
+use crate::types::{memory::dmtr_sgarray_t, queue::dmtr_qtoken_t};
 use ::libc::{c_int, sockaddr_in};
 
 //==============================================================================
@@ -28,8 +27,8 @@ pub enum dmtr_opcode_t {
 }
 
 /// Result for `accept()`
-#[derive(Copy, Clone)]
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub struct dmtr_accept_result_t {
     pub qd: c_int,
     pub addr: sockaddr_in,

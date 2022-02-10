@@ -14,28 +14,28 @@ use ::libc::{c_void, sockaddr_in};
 //==============================================================================
 
 /// Maximum Length for Scatter-Gather Arrays
-///
-/// TODO: Rename this to `DMTR_SGARRAY_MAXLEN`
-pub const DMTR_SGARRAY_MAXSIZE: usize = 1;
+pub const DMTR_SGARRAY_MAXLEN: usize = 1;
 
 //==============================================================================
 // Structures
 //==============================================================================
 
-/// Scatter-Gather Segment
-#[derive(Copy, Clone)]
+/// Scatter-Gather Array Segment
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub struct dmtr_sgaseg_t {
+    /// Underlying data.
     pub sgaseg_buf: *mut c_void,
+    /// Length of underlying data.
     pub sgaseg_len: u32,
 }
 
 /// Scatter-Gather Array
-#[derive(Copy, Clone)]
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub struct dmtr_sgarray_t {
     pub sga_buf: *mut c_void,
     pub sga_numsegs: u32,
-    pub sga_segs: [dmtr_sgaseg_t; DMTR_SGARRAY_MAXSIZE],
+    pub sga_segs: [dmtr_sgaseg_t; DMTR_SGARRAY_MAXLEN],
     pub sga_addr: sockaddr_in,
 }

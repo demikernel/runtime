@@ -83,3 +83,25 @@ impl From<i32> for IoQueueDescriptor {
         IoQueueDescriptor(val as usize)
     }
 }
+
+//==============================================================================
+// Unit Tests
+//==============================================================================
+
+#[cfg(test)]
+mod tests {
+    use super::{IoQueueDescriptor, IoQueueTable, IoQueueType};
+    use ::test::{black_box, Bencher};
+
+    #[bench]
+    fn bench_alloc_free(b: &mut Bencher) {
+        let mut ioqueue_table: IoQueueTable = IoQueueTable::new();
+
+        b.iter(|| {
+            let qd: IoQueueDescriptor = ioqueue_table.alloc(IoQueueType::TcpSocket);
+            black_box(qd);
+            let qtype: Option<IoQueueType> = ioqueue_table.free(qd);
+            black_box(qtype);
+        });
+    }
+}

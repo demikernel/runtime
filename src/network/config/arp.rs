@@ -32,27 +32,34 @@ pub struct ArpConfig {
 //==============================================================================
 
 /// Associate Functions for ARP Configuration Descriptor
-///
-/// TODO: Create Setters for Member Fields
 impl ArpConfig {
     /// Creates an ARP Configuration Descriptor.
-    ///
-    /// TODO: Enable Optional Parameters
-    /// TODO: Rely on Setters for Member Fields
     pub fn new(
-        cache_ttl: Duration,
-        request_timeout: Duration,
-        retry_count: usize,
-        initial_values: HashMap<Ipv4Addr, MacAddress>,
-        disable_arp: bool,
+        cache_ttl: Option<Duration>,
+        request_timeout: Option<Duration>,
+        retry_count: Option<usize>,
+        initial_values: Option<HashMap<Ipv4Addr, MacAddress>>,
+        disable_arp: Option<bool>,
     ) -> Self {
-        ArpConfig {
-            cache_ttl,
-            request_timeout,
-            retry_count,
-            initial_values,
-            disable_arp,
+        let mut config: ArpConfig = Self::default();
+
+        if let Some(cache_ttl) = cache_ttl {
+            config.set_cache_ttl(cache_ttl);
         }
+        if let Some(request_timeout) = request_timeout {
+            config.set_request_timeout(request_timeout);
+        }
+        if let Some(retry_count) = retry_count {
+            config.set_retry_count(retry_count);
+        }
+        if let Some(initial_values) = initial_values {
+            config.set_initial_values(initial_values);
+        }
+        if let Some(disable_arp) = disable_arp {
+            config.set_disable_arp(disable_arp);
+        }
+
+        config
     }
 
     /// Gets the time to live for entries of the ARP Cache in the target [ArpConfig].
@@ -79,6 +86,31 @@ impl ArpConfig {
     pub fn get_disable_arp(&self) -> bool {
         self.disable_arp
     }
+
+    /// Sets the time to live for entries of the ARP Cache in the target [ArpConfig].
+    fn set_cache_ttl(&mut self, cache_ttl: Duration) {
+        self.cache_ttl = cache_ttl
+    }
+
+    /// Sets the request timeout for ARP requests in the target [ArpConfig].
+    fn set_request_timeout(&mut self, request_timeout: Duration) {
+        self.request_timeout = request_timeout
+    }
+
+    /// Sets the retry count for ARP requests in the target [ArpConfig].
+    fn set_retry_count(&mut self, retry_count: usize) {
+        self.retry_count = retry_count
+    }
+
+    /// Sets the initial values for the ARP Cache in the target [ArpConfig].
+    fn set_initial_values(&mut self, initial_values: HashMap<Ipv4Addr, MacAddress>) {
+        self.initial_values = initial_values;
+    }
+
+    /// Sets the disable option of the ARP in the target [ArpConfig].
+    fn set_disable_arp(&mut self, disable_arp: bool) {
+        self.disable_arp = disable_arp
+    }
 }
 
 //==============================================================================
@@ -96,5 +128,27 @@ impl Default for ArpConfig {
             initial_values: HashMap::new(),
             disable_arp: false,
         }
+    }
+}
+
+//==============================================================================
+// Unit Tests
+//==============================================================================
+
+#[cfg(test)]
+mod tests {
+    use crate::network::config::ArpConfig;
+    use ::std::time::Duration;
+    use std::collections::HashMap;
+
+    /// Tests default instantiation for [UdpConfig].
+    #[test]
+    fn test_arp_config_default() {
+        let config: ArpConfig = ArpConfig::default();
+        assert_eq!(config.get_cache_ttl(), Duration::from_secs(15));
+        assert_eq!(config.get_request_timeout(), Duration::from_secs(20));
+        assert_eq!(config.get_retry_count(), 5);
+        assert_eq!(config.get_initial_values(), &HashMap::new());
+        assert_eq!(config.get_disable_arp(), false);
     }
 }

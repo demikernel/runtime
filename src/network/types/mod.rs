@@ -8,5 +8,4 @@ mod macaddr;
 // Exports
 //==============================================================================
 
-pub use self::ipv4::Ipv4Addr;
-pub use self::macaddr::MacAddress;
+pub use self::{ipv4::Ipv4Addr, macaddr::MacAddress};

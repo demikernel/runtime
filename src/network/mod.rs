@@ -6,9 +6,11 @@
 //==============================================================================
 
 use crate::{
-    network::config::{ArpConfig, TcpConfig, UdpConfig},
-    network::consts::RECEIVE_BATCH_SIZE,
-    network::types::{Ipv4Addr, MacAddress},
+    network::{
+        config::{ArpConfig, TcpConfig, UdpConfig},
+        consts::RECEIVE_BATCH_SIZE,
+        types::{Ipv4Addr, MacAddress},
+    },
     MemoryRuntime,
 };
 use ::arrayvec::ArrayVec;

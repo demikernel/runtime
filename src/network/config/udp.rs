@@ -19,28 +19,37 @@ pub struct UdpConfig {
 //==============================================================================
 
 /// Associate functions for UDP Configuration Descriptor
-///
-/// TODO: Create Setters for Member Fields
 impl UdpConfig {
     /// Creates a UDP Configuration Descriptor.
-    ///
-    /// TODO: Enable Optional Parameters
-    /// TODO: Rely on Setters for Member Fields
-    pub fn new(rx_checksum: bool, tx_checksum: bool) -> Self {
-        Self {
-            rx_checksum,
-            tx_checksum,
+    pub fn new(rx_checksum: Option<bool>, tx_checksum: Option<bool>) -> Self {
+        let mut config = Self::default();
+        if let Some(rx_checksum) = rx_checksum {
+            config.set_rx_checksum_offload(rx_checksum);
         }
+        if let Some(tx_checksum) = tx_checksum {
+            config.set_tx_checksum_offload(tx_checksum);
+        }
+        config
     }
 
     /// Gets the RX hardware checksum offload option in the target [UdpConfig].
-    pub fn get_rx_checksum(&self) -> bool {
+    pub fn get_rx_checksum_offload(&self) -> bool {
         self.rx_checksum
     }
 
     /// Gets the XX hardware checksum offload option in the target [UdpConfig].
-    pub fn get_tx_checksum(&self) -> bool {
+    pub fn get_tx_checksum_offload(&self) -> bool {
         self.tx_checksum
+    }
+
+    /// Sets the RX hardware checksum offload option in the target [UdpConfig].
+    fn set_rx_checksum_offload(&mut self, rx_checksum: bool) {
+        self.rx_checksum = rx_checksum;
+    }
+
+    /// Sets the TX hardware checksum offload option in the target [UdpConfig].
+    fn set_tx_checksum_offload(&mut self, tx_checksum: bool) {
+        self.tx_checksum = tx_checksum;
     }
 }
 
@@ -67,17 +76,19 @@ impl Default for UdpConfig {
 mod tests {
     use super::UdpConfig;
 
-    /// Tests instantiations flavors for [UdpConfig].
+    /// Tests default instantiation for [UdpConfig].
     #[test]
-    fn test_udp_options() {
-        //Default options.
-        let options_default = UdpConfig::default();
-        assert!(!options_default.get_rx_checksum());
-        assert!(!options_default.get_tx_checksum());
+    fn test_udp_config_default() {
+        let config: UdpConfig = UdpConfig::default();
+        assert!(!config.get_rx_checksum_offload());
+        assert!(!config.get_tx_checksum_offload());
+    }
 
-        // Custom options.
-        let options_custom = UdpConfig::new(true, true);
-        assert!(options_custom.get_rx_checksum());
-        assert!(options_custom.get_tx_checksum());
+    /// Tests custom instantiation for [UdpConfig].
+    #[test]
+    fn test_udp_config_custom() {
+        let config: UdpConfig = UdpConfig::new(Some(true), Some(true));
+        assert!(config.get_rx_checksum_offload());
+        assert!(config.get_tx_checksum_offload());
     }
 }

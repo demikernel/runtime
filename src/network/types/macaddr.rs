@@ -23,50 +23,62 @@ pub struct MacAddress(eui48::MacAddress);
 
 /// Associate Functions for MAC Addresses
 impl MacAddress {
+    /// Creates a new MAC Address from an array of bytes.
     pub const fn new(bytes: [u8; 6]) -> Self {
         MacAddress(eui48::MacAddress::new(bytes))
     }
 
+    /// Creates a new MAC address from a slice.
     pub fn from_bytes(bytes: &[u8]) -> Self {
         MacAddress(eui48::MacAddress::from_bytes(bytes).unwrap())
     }
 
+    /// Returns the array of bytes composing the target [MacAddress].
     pub fn octets(&self) -> [u8; 6] {
         self.0.to_array()
     }
 
+    /// Returns a MAC Address that matches the broadcast one.
     pub fn broadcast() -> MacAddress {
         MacAddress(eui48::MacAddress::broadcast())
     }
 
+    /// Returns a MAC Address that matches the null one.
     pub fn nil() -> MacAddress {
         MacAddress(eui48::MacAddress::nil())
     }
 
+    /// Queries whether or not the target [MacAddress] is a null one.
     pub fn is_nil(self) -> bool {
         self.0.is_nil()
     }
 
+    /// Queries whether or not the target [MacAddress] is a broadcast one.
     pub fn is_broadcast(self) -> bool {
         self.0.is_broadcast()
     }
 
+    /// Queries whether or not the target [MacAddress] is a unicast one.
     pub fn is_unicast(self) -> bool {
         self.0.is_unicast()
     }
 
+    /// Converts the target [MacAddress] to a canonical representation.
     pub fn to_canonical(self) -> String {
         self.0.to_canonical()
     }
 
+    /// Converts the target [MacAddress] to a byte-slice representation.
     pub fn as_bytes(&self) -> &[u8] {
         self.0.as_bytes()
     }
 
+    /// Creates a MAC Address from a canonical representation.
     pub fn parse_str(s: &str) -> Result<Self, Fail> {
         Ok(Self(eui48::MacAddress::parse_str(s)?))
     }
 
+    /// Converts the target [MacAddress] to an array of bytes.
     pub fn to_array(self) -> [u8; 6] {
         self.0.to_array()
     }

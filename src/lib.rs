@@ -34,6 +34,7 @@ pub mod memory;
 pub mod network;
 pub mod queue;
 pub mod task;
+pub mod timer;
 pub mod types;
 pub mod utils;
 

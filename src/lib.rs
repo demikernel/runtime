@@ -28,6 +28,7 @@ use self::{
 //==============================================================================
 
 pub mod fail;
+pub mod logging;
 pub mod memory;
 pub mod network;
 pub mod queue;

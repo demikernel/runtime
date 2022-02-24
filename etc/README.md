@@ -9,6 +9,7 @@ Architectural Diagrams
 - [Network Module (`runtime::network`)](#network-module)
 - [Queue Module (`runtime::queue`)](#queue-module)
 - [Task Module (`runtime::task`)](#task-module)
+- [Timer Module (`runtime::timer`)](#timer-module)
 - [Collections Module (`runtime::collections`)](#collections-module)
 
 Package Overview
@@ -43,6 +44,9 @@ Task Module
 ------------
 ![Task Module](./img/runtime-task.png)
 
+Timer Module
+------------
+![Timer Module](./img/runtime-timer.png)
 
 Collections Module
 ------------

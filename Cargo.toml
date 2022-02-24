@@ -22,7 +22,7 @@ log = "0.4.14"
 slab = "0.4.5"
 rand = { version = "0.8.4", features = ["small_rng"] }
 
-catwalk = { git = "https://github.com/demikernel/catwalk", rev = "063cf220c3e81beb6562f798ebadab3d9c24f336" }
+catwalk = { git = "https://github.com/demikernel/catwalk", rev = "767670cae4f800af3f053d815bba16237420f860" }
 
 [profile.release]
 lto = "fat"

@@ -2,6 +2,7 @@ Architectural Diagrams
 =======================
 
 - [Package Overview (`runtime`)](#package-overview)
+- [Logging Module (`runtime::logging`)](#logging-module)
 - [Types Module (`runtime::types`)](#types-module)
 - [Utils Module (`runtime::utils`)](#utils-module)
 - [Memory Module (`runtime::memory`)](#memory-module)
@@ -12,6 +13,10 @@ Architectural Diagrams
 Package Overview
 -----------------
 ![Package Overview](./img/runtime.png)
+
+Logging Module
+---------------
+![Logging Module](./img/runtime-logging.png)
 
 Types Module
 ---------------

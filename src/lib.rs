@@ -27,6 +27,7 @@ use self::{
 // Exports
 //==============================================================================
 
+pub mod collections;
 pub mod fail;
 pub mod logging;
 pub mod memory;

@@ -27,7 +27,7 @@ use self::{
 // Exports
 //==============================================================================
 
-pub mod collections;
+mod collections;
 pub mod fail;
 pub mod logging;
 pub mod memory;
@@ -37,6 +37,7 @@ pub mod task;
 pub mod timer;
 pub mod types;
 pub mod utils;
+pub mod watched;
 
 //==============================================================================
 // Traits

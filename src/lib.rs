@@ -28,6 +28,7 @@ use self::{
 //==============================================================================
 
 mod collections;
+mod qresult;
 mod qtoken;
 
 pub mod fail;
@@ -40,6 +41,7 @@ pub mod timer;
 pub mod types;
 pub mod utils;
 pub mod watched;
+pub use qresult::QResult;
 pub use qtoken::QToken;
 
 //==============================================================================

@@ -28,6 +28,8 @@ use self::{
 //==============================================================================
 
 mod collections;
+mod qtoken;
+
 pub mod fail;
 pub mod logging;
 pub mod memory;
@@ -38,6 +40,7 @@ pub mod timer;
 pub mod types;
 pub mod utils;
 pub mod watched;
+pub use qtoken::QToken;
 
 //==============================================================================
 // Traits

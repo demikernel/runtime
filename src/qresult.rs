@@ -8,7 +8,7 @@
 use crate::{
     fail::Fail,
     network::types::{Ipv4Addr, Port16},
-    queue::IoQueueDescriptor,
+    QDesc,
 };
 
 //==============================================================================
@@ -18,7 +18,7 @@ use crate::{
 /// Result for IO Queue Operations
 pub enum QResult {
     Connect,
-    Accept(IoQueueDescriptor),
+    Accept(QDesc),
     Push,
     PushTo,
     Pop(Option<(Ipv4Addr, Port16)>, Vec<u8>),

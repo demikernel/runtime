@@ -1,10 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-use slab::Slab;
+//==============================================================================
+// Imports
+//==============================================================================
+
+use crate::QDesc;
+use ::slab::Slab;
 
 //==============================================================================
-// Structures
+// Enumerations
 //==============================================================================
 
 /// IO Queue Types
@@ -20,10 +25,6 @@ pub enum IoQueueType {
 //==============================================================================
 // Structures
 //==============================================================================
-
-/// IO Queue Descriptor
-#[derive(From, Into, Debug, Eq, PartialEq, Hash, Copy, Clone)]
-pub struct IoQueueDescriptor(usize);
 
 /// IO Queue Table
 pub struct IoQueueTable {
@@ -42,13 +43,13 @@ impl IoQueueTable {
     }
 
     /// Allocates a new entry in the target [IoQueueTable].
-    pub fn alloc(&mut self, qtype: IoQueueType) -> IoQueueDescriptor {
+    pub fn alloc(&mut self, qtype: IoQueueType) -> QDesc {
         let ix: usize = self.table.insert(qtype);
-        IoQueueDescriptor(ix)
+        QDesc::from(ix)
     }
 
     /// Gets the file associated with an IO queue descriptor.
-    pub fn get(&self, qd: IoQueueDescriptor) -> Option<IoQueueType> {
+    pub fn get(&self, qd: QDesc) -> Option<IoQueueType> {
         if !self.table.contains(qd.into()) {
             return None;
         }
@@ -57,7 +58,7 @@ impl IoQueueTable {
     }
 
     /// Releases an entry in the target [IoQueueTable].
-    pub fn free(&mut self, qd: IoQueueDescriptor) -> Option<IoQueueType> {
+    pub fn free(&mut self, qd: QDesc) -> Option<IoQueueType> {
         if !self.table.contains(qd.into()) {
             return None;
         }
@@ -67,30 +68,13 @@ impl IoQueueTable {
 }
 
 //==============================================================================
-// Trait Implementations
-//==============================================================================
-
-/// Convert Trait Implementation for Signed 32-bit Integers
-impl From<IoQueueDescriptor> for i32 {
-    fn from(val: IoQueueDescriptor) -> Self {
-        val.0 as i32
-    }
-}
-
-/// Convert Trait Implementation for IO Queue Descriptors
-impl From<i32> for IoQueueDescriptor {
-    fn from(val: i32) -> Self {
-        IoQueueDescriptor(val as usize)
-    }
-}
-
-//==============================================================================
 // Unit Tests
 //==============================================================================
 
 #[cfg(test)]
 mod tests {
-    use super::{IoQueueDescriptor, IoQueueTable, IoQueueType};
+    use super::{IoQueueTable, IoQueueType};
+    use crate::QDesc;
     use ::test::{black_box, Bencher};
 
     #[bench]
@@ -98,7 +82,7 @@ mod tests {
         let mut ioqueue_table: IoQueueTable = IoQueueTable::new();
 
         b.iter(|| {
-            let qd: IoQueueDescriptor = ioqueue_table.alloc(IoQueueType::TcpSocket);
+            let qd: QDesc = ioqueue_table.alloc(IoQueueType::TcpSocket);
             black_box(qd);
             let qtype: Option<IoQueueType> = ioqueue_table.free(qd);
             black_box(qtype);

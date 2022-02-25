@@ -9,26 +9,12 @@ use crate::QDesc;
 use ::slab::Slab;
 
 //==============================================================================
-// Enumerations
-//==============================================================================
-
-/// IO Queue Types
-///
-/// TODO: we should drop this and make queue type specialization be outsourced.
-#[deprecated]
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub enum IoQueueType {
-    TcpSocket,
-    UdpSocket,
-}
-
-//==============================================================================
 // Structures
 //==============================================================================
 
 /// IO Queue Table
 pub struct IoQueueTable {
-    table: Slab<IoQueueType>,
+    table: Slab<u32>,
 }
 
 //==============================================================================
@@ -43,13 +29,13 @@ impl IoQueueTable {
     }
 
     /// Allocates a new entry in the target [IoQueueTable].
-    pub fn alloc(&mut self, qtype: IoQueueType) -> QDesc {
+    pub fn alloc(&mut self, qtype: u32) -> QDesc {
         let ix: usize = self.table.insert(qtype);
         QDesc::from(ix)
     }
 
     /// Gets the file associated with an IO queue descriptor.
-    pub fn get(&self, qd: QDesc) -> Option<IoQueueType> {
+    pub fn get(&self, qd: QDesc) -> Option<u32> {
         if !self.table.contains(qd.into()) {
             return None;
         }
@@ -58,7 +44,7 @@ impl IoQueueTable {
     }
 
     /// Releases an entry in the target [IoQueueTable].
-    pub fn free(&mut self, qd: QDesc) -> Option<IoQueueType> {
+    pub fn free(&mut self, qd: QDesc) -> Option<u32> {
         if !self.table.contains(qd.into()) {
             return None;
         }
@@ -73,8 +59,8 @@ impl IoQueueTable {
 
 #[cfg(test)]
 mod tests {
-    use super::{IoQueueTable, IoQueueType};
-    use crate::QDesc;
+    use super::IoQueueTable;
+    use crate::{QDesc, QType};
     use ::test::{black_box, Bencher};
 
     #[bench]
@@ -82,9 +68,9 @@ mod tests {
         let mut ioqueue_table: IoQueueTable = IoQueueTable::new();
 
         b.iter(|| {
-            let qd: QDesc = ioqueue_table.alloc(IoQueueType::TcpSocket);
+            let qd: QDesc = ioqueue_table.alloc(QType::TcpSocket.into());
             black_box(qd);
-            let qtype: Option<IoQueueType> = ioqueue_table.free(qd);
+            let qtype: Option<u32> = ioqueue_table.free(qd);
             black_box(qtype);
         });
     }

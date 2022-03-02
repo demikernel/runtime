@@ -17,6 +17,9 @@
 #[macro_use]
 extern crate derive_more;
 
+#[macro_use]
+extern crate num_derive;
+
 extern crate test;
 
 use self::{
@@ -31,6 +34,7 @@ mod collections;
 mod qdesc;
 mod qresult;
 mod qtoken;
+mod qtype;
 
 pub mod fail;
 pub mod logging;
@@ -45,6 +49,7 @@ pub mod watched;
 pub use qdesc::QDesc;
 pub use qresult::QResult;
 pub use qtoken::QToken;
+pub use qtype::QType;
 
 //==============================================================================
 // Traits

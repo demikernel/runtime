@@ -19,6 +19,8 @@ flexi_logger = "0.22.3"
 futures = "0.3.21"
 libc = "0.2.115"
 log = "0.4.14"
+num-derive = "0.3.3"
+num-traits = "0.2.14"
 slab = "0.4.5"
 rand = { version = "0.8.4", features = ["small_rng"] }
 

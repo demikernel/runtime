@@ -13,8 +13,20 @@ pub enum QType {
     TcpSocket = 0x0002,
 }
 
+//==============================================================================
+// Trait Implementations
+//==============================================================================
+
+/// From Trait Implementation for IO Queue Types
 impl From<QType> for u32 {
     fn from(qtoken: QType) -> Self {
         qtoken.into()
+    }
+}
+
+/// From Trait Implementation for IO Queue Types
+impl From<u32> for QType {
+    fn from(val: u32) -> Self {
+        val.into()
     }
 }

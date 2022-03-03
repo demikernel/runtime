@@ -17,9 +17,6 @@
 #[macro_use]
 extern crate derive_more;
 
-#[macro_use]
-extern crate num_derive;
-
 extern crate test;
 
 use self::{

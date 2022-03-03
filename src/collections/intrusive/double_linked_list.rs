@@ -108,6 +108,7 @@ impl<T> LinkedList<T> {
     /// the linked list.
     /// The returned pointer is only guaranteed to be valid as long as the list
     /// is not mutated
+    #[allow(dead_code)]
     pub fn peek_first(&self) -> Option<&mut ListNode<T>> {
         // Safety: When the node was inserted it was promised that it is alive
         // until it gets removed from the list.
@@ -125,6 +126,7 @@ impl<T> LinkedList<T> {
     /// the linked list.
     /// The returned pointer is only guaranteed to be valid as long as the list
     /// is not mutated
+    #[allow(dead_code)]
     pub fn peek_last(&self) -> Option<&mut ListNode<T>> {
         // Safety: When the node was inserted it was promised that it is alive
         // until it gets removed from the list.
@@ -138,6 +140,7 @@ impl<T> LinkedList<T> {
     }
 
     /// Removes the first node from the linked list
+    #[allow(dead_code)]
     pub fn remove_first(&mut self) -> Option<&mut ListNode<T>> {
         // Safety: When the node was inserted it was promised that it is alive
         // until it gets removed from the list
@@ -164,6 +167,7 @@ impl<T> LinkedList<T> {
     }
 
     /// Removes the last node from the linked list and returns it
+    #[allow(dead_code)]
     pub fn remove_last(&mut self) -> Option<&mut ListNode<T>> {
         // Safety: When the node was inserted it was promised that it is alive
         // until it gets removed from the list
@@ -190,6 +194,7 @@ impl<T> LinkedList<T> {
     }
 
     /// Returns whether the linked list doesn not contain any node
+    #[allow(dead_code)]
     pub fn is_empty(&self) -> bool {
         if !self.head.is_none() {
             return false;
@@ -248,6 +253,7 @@ impl<T> LinkedList<T> {
     /// draining the list is not permitted. If the method would push nodes to
     /// an iterator we could not guarantee that the nodes do not get utilized
     /// after having been removed from the list anymore.
+    #[allow(dead_code)]
     pub fn drain<F>(&mut self, mut func: F)
     where
         F: FnMut(&mut ListNode<T>),

@@ -6,6 +6,7 @@
 //==============================================================================
 
 use crate::{fail::Fail, memory::Bytes};
+use ::libc::EINVAL;
 use ::std::{
     fmt::{self, Debug},
     ops::{Deref, DerefMut},
@@ -31,9 +32,7 @@ impl BytesMut {
     /// Creates a zeroed [BytesMut].
     pub fn zeroed(capacity: usize) -> Result<Self, Fail> {
         if capacity == 0 {
-            return Err(Fail::Invalid {
-                details: "zero-capacity buffer",
-            });
+            return Err(Fail::new(EINVAL, "zero-capacity buffer"));
         }
         Ok(Self {
             data: unsafe { Arc::new_zeroed_slice(capacity).assume_init() },

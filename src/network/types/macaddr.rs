@@ -7,6 +7,7 @@
 
 use crate::fail::Fail;
 use ::eui48;
+use ::libc::EINVAL;
 use ::std::fmt;
 
 //==============================================================================
@@ -75,7 +76,10 @@ impl MacAddress {
 
     /// Creates a MAC Address from a canonical representation.
     pub fn parse_str(s: &str) -> Result<Self, Fail> {
-        Ok(Self(eui48::MacAddress::parse_str(s)?))
+        match eui48::MacAddress::parse_str(s) {
+            Ok(addr) => Ok(Self(addr)),
+            Err(_) => Err(Fail::new(EINVAL, "failed to parse MAC Address")),
+        }
     }
 
     /// Converts the target [MacAddress] to an array of bytes.

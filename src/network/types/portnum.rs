@@ -6,6 +6,7 @@
 //==============================================================================
 
 use crate::fail::Fail;
+use ::libc::ERANGE;
 use ::std::{convert::TryFrom, num::NonZeroU16};
 
 //==============================================================================
@@ -46,8 +47,8 @@ impl TryFrom<u16> for Port16 {
 
     /// Tries to convert the target [Port16] into a [u16].
     fn try_from(n: u16) -> Result<Self, Fail> {
-        Ok(Port16(NonZeroU16::new(n).ok_or(Fail::OutOfRange {
-            details: "port number may not be zero",
-        })?))
+        Ok(Port16(
+            NonZeroU16::new(n).ok_or(Fail::new(ERANGE, "port number may not be zero"))?,
+        ))
     }
 }

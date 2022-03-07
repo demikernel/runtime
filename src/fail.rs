@@ -5,75 +5,33 @@
 // Imports
 //==============================================================================
 
-use ::custom_error::custom_error;
-use ::float_duration;
-use ::std::{cell::BorrowMutError, io::Error as IoError, num::TryFromIntError};
+use ::std::{error, fmt, io};
+use libc::{c_int, EIO};
 
 //==============================================================================
-// Types
+// Structures
 //==============================================================================
 
-// the following type alias is needed because the `custom_error!` macro doesn't
-// allow `&` in type specifications.
-type Str = &'static str;
-
-//==============================================================================
-// Macros
-//==============================================================================
-
-custom_error! {#[derive(Clone, PartialEq)] pub Fail
-    ConnectionAborted{} = "connection aborted",
-    ConnectionRefused{} = "connection refused",
-    IoError {} = "IO Error",
-    BorrowMutError {} = "BorrowMut Error",
-    Ignored{details: Str} = "operation had no effect ({details})",
-    Malformed{details: Str} = "encountered a malformed datagram ({details})",
-    Misdelivered{} = "misdelivered datagram",
-    OutOfRange{details: Str} = "a value is out of range ({details})",
-    ResourceBusy{details: Str} = "resource is busy ({details})",
-    ResourceExhausted{details: Str} = "resource exhausted ({details})",
-    ResourceNotFound{details: Str} = "resource not found ({details})",
-    Timeout{} = "an asynchronous operation timed out",
-    TypeMismatch{details: Str} = "type mismatch ({details})",
-    Unsupported{details: Str} = "unsupported ({details})",
-    Invalid {details: Str} = "invalid ({details})",
-    TooManyOpenedFiles {details: Str} = "too many opened files ({details})",
-    AddressInUse {} = "address in use",
-    AddressNotAvailable {} = "address not available",
-    AddressFamilySupport {} = "address family not supported",
-    SocketTypeSupport {} = "socket type not supported",
-    BadFileDescriptor {} = "bad file descriptor",
+/// Failure
+#[derive(Clone)]
+pub struct Fail {
+    /// Error code.
+    pub errno: c_int,
+    /// Cause.
+    pub cause: String,
 }
 
 //==============================================================================
 // Associate Functions
 //==============================================================================
 
-/// Associate Functions for Fail
+/// Associate Functions for Failures
 impl Fail {
-    pub fn errno(&self) -> libc::c_int {
-        match self {
-            Fail::ConnectionAborted {} => libc::ECONNABORTED,
-            Fail::ConnectionRefused {} => libc::ECONNREFUSED,
-            Fail::Ignored { .. } => 0,
-            Fail::Malformed { .. } => libc::EILSEQ,
-            Fail::Misdelivered {} => libc::EHOSTUNREACH,
-            Fail::OutOfRange { .. } => libc::ERANGE,
-            Fail::ResourceBusy { .. } => libc::EBUSY,
-            Fail::ResourceExhausted { .. } => libc::ENOMEM,
-            Fail::ResourceNotFound { .. } => libc::ENOENT,
-            Fail::Timeout {} => libc::ETIMEDOUT,
-            Fail::TypeMismatch { .. } => libc::EPERM,
-            Fail::Unsupported { .. } => libc::ENOTSUP,
-            Fail::IoError {} => libc::EIO,
-            Fail::BorrowMutError {} => libc::EINVAL,
-            Fail::Invalid { .. } => libc::EINVAL,
-            Fail::TooManyOpenedFiles { .. } => libc::EMFILE,
-            Fail::AddressInUse { .. } => libc::EADDRINUSE,
-            Fail::AddressNotAvailable { .. } => libc::EADDRNOTAVAIL,
-            Fail::AddressFamilySupport { .. } => libc::EAFNOSUPPORT,
-            Fail::SocketTypeSupport { .. } => libc::ESOCKTNOSUPPORT,
-            Fail::BadFileDescriptor { .. } => libc::EBADF,
+    /// Creates a new Failure
+    pub fn new(errno: i32, cause: &str) -> Self {
+        Self {
+            errno,
+            cause: cause.to_string(),
         }
     }
 }
@@ -82,43 +40,29 @@ impl Fail {
 // Trait Implementations
 //==============================================================================
 
-/// Conversion Trait Implementation for Fail
-impl From<IoError> for Fail {
-    fn from(_: IoError) -> Self {
-        Fail::IoError {}
+/// Display Trait Implementation for Failures
+impl fmt::Display for Fail {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "Error {:?}: {:?}", self.errno, self.cause)
     }
 }
 
-/// Conversion Trait Implementation for Fail
-impl From<BorrowMutError> for Fail {
-    fn from(_: BorrowMutError) -> Self {
-        Fail::BorrowMutError {}
+/// Debug trait Implementation for Failures
+impl fmt::Debug for Fail {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "Error {:?}: {:?}", self.errno, self.cause)
     }
 }
 
-/// Conversion Trait Implementation for Fail
-impl From<float_duration::error::OutOfRangeError> for Fail {
-    fn from(_: float_duration::error::OutOfRangeError) -> Self {
-        Fail::OutOfRange {
-            details: "float_duration::error::OutOfRangeError",
-        }
-    }
-}
+/// Error Trait Implementation for Failures
+impl error::Error for Fail {}
 
 /// Conversion Trait Implementation for Fail
-impl From<TryFromIntError> for Fail {
-    fn from(_: TryFromIntError) -> Self {
-        Fail::OutOfRange {
-            details: "std::num::TryFromIntError",
-        }
-    }
-}
-
-/// Conversion Trait Implementation for Fail
-impl From<eui48::ParseError> for Fail {
-    fn from(_: eui48::ParseError) -> Self {
-        Fail::Invalid {
-            details: "Failed to parse MAC Address",
+impl From<io::Error> for Fail {
+    fn from(_: io::Error) -> Self {
+        Self {
+            errno: EIO,
+            cause: "I/O error".to_string(),
         }
     }
 }

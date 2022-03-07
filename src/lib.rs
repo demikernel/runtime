@@ -28,10 +28,6 @@ use self::{
 //==============================================================================
 
 mod collections;
-mod qdesc;
-mod qresult;
-mod qtoken;
-mod qtype;
 
 pub mod fail;
 pub mod logging;
@@ -43,10 +39,10 @@ pub mod timer;
 pub mod types;
 pub mod utils;
 pub mod watched;
-pub use qdesc::QDesc;
-pub use qresult::QResult;
-pub use qtoken::QToken;
-pub use qtype::QType;
+pub use queue::QDesc;
+pub use queue::QResult;
+pub use queue::QToken;
+pub use queue::QType;
 
 //==============================================================================
 // Traits

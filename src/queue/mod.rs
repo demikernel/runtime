@@ -1,12 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+mod qdesc;
+mod qresult;
+mod qtoken;
+mod qtype;
+
 //==============================================================================
 // Imports
 //==============================================================================
 
-use crate::QDesc;
 use ::slab::Slab;
+
+//==============================================================================
+// Imports
+//==============================================================================
+
+pub use self::qdesc::QDesc;
+pub use self::qresult::QResult;
+pub use self::qtoken::QToken;
+pub use self::qtype::QType;
 
 //==============================================================================
 // Structures

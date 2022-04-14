@@ -17,15 +17,6 @@ on:
       - dev
       - unstable
       - master
-  pull_request:
-    branches:
-      - bugfix-*
-      - enhancement-*
-      - feature-*
-      - workaround-*
-      - dev
-      - unstable
-      - master
   workflow_dispatch:
     branches:
       - bugfix-*
@@ -52,8 +43,8 @@ jobs:
     name: Demikernel 0
     uses: demikernel/workflows/.github/workflows/setup.yml@dev
     secrets:
-      host: ${{ secrets.HOSTNAME_A }}
-      port: ${{ secrets.PORTNUM_A }}
+      host: ${{ secrets.CATNAP_HOSTNAME_A }}
+      port: ${{ secrets.PORTNUM }}
       key: ${{ secrets.SSHKEY }}
       username: ${{ secrets.USERNAME }}
 
@@ -62,8 +53,8 @@ jobs:
     name: Demikernel 1
     uses: demikernel/workflows/.github/workflows/setup.yml@dev
     secrets:
-      host: ${{ secrets.HOSTNAME_B }}
-      port: ${{ secrets.PORTNUM_B }}
+      host: ${{ secrets.CATNAP_HOSTNAME_B }}
+      port: ${{ secrets.PORTNUM }}
       key: ${{ secrets.SSHKEY }}
       username: ${{ secrets.USERNAME }}
 
@@ -77,8 +68,8 @@ jobs:
     needs: [setup-demikernel0]
     uses: demikernel/workflows/.github/workflows/compile.yml@dev
     secrets:
-      host: ${{ secrets.HOSTNAME_A }}
-      port: ${{ secrets.PORTNUM_A }}
+      host: ${{ secrets.CATNAP_HOSTNAME_A }}
+      port: ${{ secrets.PORTNUM }}
       key: ${{ secrets.SSHKEY }}
       username: ${{ secrets.USERNAME }}
 
@@ -88,8 +79,8 @@ jobs:
     needs: [setup-demikernel1]
     uses: demikernel/workflows/.github/workflows/compile.yml@dev
     secrets:
-      host: ${{ secrets.HOSTNAME_B }}
-      port: ${{ secrets.PORTNUM_B }}
+      host: ${{ secrets.CATNAP_HOSTNAME_B }}
+      port: ${{ secrets.PORTNUM }}
       key: ${{ secrets.SSHKEY }}
       username: ${{ secrets.USERNAME }}
 
@@ -103,8 +94,8 @@ jobs:
     needs: [build-demikernel0]
     uses: demikernel/runtime/.github/workflows/run.yml@dev
     secrets:
-      host: ${{ secrets.HOSTNAME_A }}
-      port: ${{ secrets.PORTNUM_A }}
+      host: ${{ secrets.CATNAP_HOSTNAME_A }}
+      port: ${{ secrets.PORTNUM }}
       key: ${{ secrets.SSHKEY }}
       username: ${{ secrets.USERNAME }}
 
@@ -114,8 +105,8 @@ jobs:
     needs: [build-demikernel1]
     uses: demikernel/runtime/.github/workflows/run.yml@dev
     secrets:
-      host: ${{ secrets.HOSTNAME_B }}
-      port: ${{ secrets.PORTNUM_B }}
+      host: ${{ secrets.CATNAP_HOSTNAME_B }}
+      port: ${{ secrets.PORTNUM }}
       key: ${{ secrets.SSHKEY }}
       username: ${{ secrets.USERNAME }}
 
@@ -129,8 +120,8 @@ jobs:
     needs: [run-demikernel0]
     uses: demikernel/workflows/.github/workflows/cleanup.yml@dev
     secrets:
-      host: ${{ secrets.HOSTNAME_A }}
-      port: ${{ secrets.PORTNUM_A }}
+      host: ${{ secrets.CATNAP_HOSTNAME_A }}
+      port: ${{ secrets.PORTNUM }}
       key: ${{ secrets.SSHKEY }}
       username: ${{ secrets.USERNAME }}
 
@@ -140,7 +131,7 @@ jobs:
     needs: [run-demikernel1]
     uses: demikernel/workflows/.github/workflows/cleanup.yml@dev
     secrets:
-      host: ${{ secrets.HOSTNAME_B }}
-      port: ${{ secrets.PORTNUM_B }}
+      host: ${{ secrets.CATNAP_HOSTNAME_B }}
+      port: ${{ secrets.PORTNUM }}
       key: ${{ secrets.SSHKEY }}
       username: ${{ secrets.USERNAME }}

@@ -20,21 +20,22 @@ Building and Running
 export WORKDIR=$HOME                                   # Change this to whatever you want.
 cd $WORKDIR                                            # Switch to working directory.
 git clone https://github.com/demikernel/runtime.git    # Clone.
+cd $WORKDIR/runtime                                    # Switch to repository's source tree.
 ```
 
-**1. Install Prerequisites**
+**1. Install Prerequisites (Only Once)**
 ```
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
 **3. Build the Sources**
 ```
-cargo build
+make all
 ```
 
 **4. Run Regression Tests**
 ```
-cargo test
+make test
 ```
 
 Documentation
@@ -45,8 +46,7 @@ Documentation
 
 **1. Build API Documentation (Optional)**
 ```
-cargo doc --no-deps    # Build API Documentation
-cargo doc --open       # Open API Documentation
+make doc
 ```
 
 Code of Conduct

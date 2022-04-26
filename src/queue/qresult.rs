@@ -7,7 +7,10 @@
 
 use crate::{
     fail::Fail,
-    network::types::{Ipv4Addr, Port16},
+    network::types::{
+        Ipv4Addr,
+        Port16,
+    },
     QDesc,
 };
 

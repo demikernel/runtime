@@ -7,8 +7,14 @@
 // Imports
 //==============================================================================
 
-use crate::types::{memory::dmtr_sgarray_t, queue::dmtr_qtoken_t};
-use ::libc::{c_int, sockaddr_in};
+use crate::types::{
+    memory::dmtr_sgarray_t,
+    queue::dmtr_qtoken_t,
+};
+use ::libc::{
+    c_int,
+    sockaddr_in,
+};
 
 //==============================================================================
 // Structures

@@ -5,8 +5,14 @@
 // Imports
 //==============================================================================
 
-use crate::network::types::{Ipv4Addr, MacAddress};
-use ::std::{collections::HashMap, time::Duration};
+use crate::network::types::{
+    Ipv4Addr,
+    MacAddress,
+};
+use ::std::{
+    collections::HashMap,
+    time::Duration,
+};
 
 //==============================================================================
 // Structures

@@ -5,11 +5,20 @@
 // Imports
 //==============================================================================
 
-use crate::{fail::Fail, memory::Bytes};
+use crate::{
+    fail::Fail,
+    memory::Bytes,
+};
 use ::libc::EINVAL;
 use ::std::{
-    fmt::{self, Debug},
-    ops::{Deref, DerefMut},
+    fmt::{
+        self,
+        Debug,
+    },
+    ops::{
+        Deref,
+        DerefMut,
+    },
     sync::Arc,
 };
 

@@ -42,7 +42,11 @@
 use core::{
     marker::PhantomPinned,
     mem,
-    ops::{Deref, DerefMut, Drop},
+    ops::{
+        Deref,
+        DerefMut,
+        Drop,
+    },
     ptr::NonNull,
 };
 
@@ -135,10 +139,7 @@ unsafe fn add_child<T: Ord>(mut parent: NonNull<HeapNode<T>>, mut child: NonNull
 }
 
 /// Merge two root heaps. Returns the new root.
-unsafe fn meld<T: Ord>(
-    left: NonNull<HeapNode<T>>,
-    right: NonNull<HeapNode<T>>,
-) -> NonNull<HeapNode<T>> {
+unsafe fn meld<T: Ord>(left: NonNull<HeapNode<T>>, right: NonNull<HeapNode<T>>) -> NonNull<HeapNode<T>> {
     debug_assert!(left.as_ref().is_root());
     debug_assert!(right.as_ref().is_root());
     // The lesser node should become the root.
@@ -152,10 +153,7 @@ unsafe fn meld<T: Ord>(
 }
 
 /// Merge two root heaps, where the left might be empty. Returns the new root.
-unsafe fn maybe_meld<T: Ord>(
-    left: Option<NonNull<HeapNode<T>>>,
-    right: NonNull<HeapNode<T>>,
-) -> NonNull<HeapNode<T>> {
+unsafe fn maybe_meld<T: Ord>(left: Option<NonNull<HeapNode<T>>>, right: NonNull<HeapNode<T>>) -> NonNull<HeapNode<T>> {
     if let Some(left) = left {
         meld(left, right)
     } else {
@@ -316,7 +314,10 @@ impl<T: Ord> PairingHeap<T> {
 
 #[cfg(all(test, feature = "std"))]
 mod tests {
-    use super::{HeapNode, PairingHeap};
+    use super::{
+        HeapNode,
+        PairingHeap,
+    };
     use core::ptr::NonNull;
 
     // Recursively check the provided node and all descendants for:
@@ -360,11 +361,7 @@ mod tests {
             Remove(u8),
         }
 
-        fn generate_schedules(
-            current: &mut Vec<Action>,
-            available: &mut Vec<Action>,
-            f: fn(&[Action]),
-        ) {
+        fn generate_schedules(current: &mut Vec<Action>, available: &mut Vec<Action>, f: fn(&[Action])) {
             for i in 0..available.len() {
                 let action = available.swap_remove(i);
                 current.push(action);
@@ -408,13 +405,13 @@ mod tests {
                         Action::Insert(n) => {
                             heap.insert(&mut nodes[n as usize]);
                             validate_heap(&heap);
-                        }
+                        },
                         Action::Remove(n) => {
                             heap.remove(&mut nodes[n as usize]);
                             assert!(nodes[n as usize].is_root());
                             assert_eq!(nodes[n as usize].first_child, None);
                             validate_heap(&heap);
-                        }
+                        },
                     }
                 }
             },

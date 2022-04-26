@@ -5,10 +5,16 @@
 // Imports
 //==============================================================================
 
-use ::catwalk::{SchedulerFuture, SchedulerHandle};
+use ::catwalk::{
+    SchedulerFuture,
+    SchedulerHandle,
+};
 use ::std::{
     future::Future,
-    time::{Duration, Instant},
+    time::{
+        Duration,
+        Instant,
+    },
 };
 
 //==============================================================================

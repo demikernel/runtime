@@ -24,7 +24,10 @@
 
 use core::{
     marker::PhantomPinned,
-    ops::{Deref, DerefMut},
+    ops::{
+        Deref,
+        DerefMut,
+    },
     ptr::NonNull,
 };
 
@@ -79,10 +82,7 @@ pub struct LinkedList<T> {
 impl<T> LinkedList<T> {
     /// Creates an empty linked list
     pub fn new() -> Self {
-        LinkedList::<T> {
-            head: None,
-            tail: None,
-        }
+        LinkedList::<T> { head: None, tail: None }
     }
 
     /// Adds a node at the front of the linked list.
@@ -95,7 +95,7 @@ impl<T> LinkedList<T> {
         node.prev = None;
         match self.head {
             Some(mut head) => head.as_mut().prev = Some(node.into()),
-            None => {}
+            None => {},
         };
         self.head = Some(node.into());
         if self.tail.is_none() {
@@ -115,10 +115,7 @@ impl<T> LinkedList<T> {
         // The returned node has a pointer which constrains it to the lifetime
         // of the list. This is ok, since the Node is supposed to outlive
         // its insertion in the list.
-        unsafe {
-            self.head
-                .map(|mut node| &mut *(node.as_mut() as *mut ListNode<T>))
-        }
+        unsafe { self.head.map(|mut node| &mut *(node.as_mut() as *mut ListNode<T>)) }
     }
 
     /// Returns the last node in the linked list without removing it from the list
@@ -133,10 +130,7 @@ impl<T> LinkedList<T> {
         // The returned node has a pointer which constrains it to the lifetime
         // of the list. This is ok, since the Node is supposed to outlive
         // its insertion in the list.
-        unsafe {
-            self.tail
-                .map(|mut node| &mut *(node.as_mut() as *mut ListNode<T>))
-        }
+        unsafe { self.tail.map(|mut node| &mut *(node.as_mut() as *mut ListNode<T>)) }
     }
 
     /// Removes the first node from the linked list
@@ -154,10 +148,10 @@ impl<T> LinkedList<T> {
                     // This was the only node in the list
                     debug_assert_eq!(Some(first_ref.into()), self.tail);
                     self.tail = None;
-                }
+                },
                 Some(mut next) => {
                     next.as_mut().prev = None;
-                }
+                },
             }
 
             first_ref.prev = None;
@@ -181,10 +175,10 @@ impl<T> LinkedList<T> {
                     // This was the last node in the list
                     debug_assert_eq!(Some(last_ref.into()), self.head);
                     self.head = None;
-                }
+                },
                 Some(mut prev) => {
                     prev.as_mut().next = None;
-                }
+                },
             }
 
             last_ref.prev = None;
@@ -221,11 +215,11 @@ impl<T> LinkedList<T> {
                     return false;
                 }
                 self.head = node.next;
-            }
+            },
             Some(mut prev) => {
                 debug_assert_eq!(prev.as_ref().next, Some(node.into()));
                 prev.as_mut().next = node.next;
-            }
+            },
         }
 
         match node.next {
@@ -234,11 +228,11 @@ impl<T> LinkedList<T> {
                 // is inconsistent.
                 debug_assert_eq!(self.tail, Some(node.into()));
                 self.tail = node.prev;
-            }
+            },
             Some(mut next) => {
                 debug_assert_eq!(next.as_mut().prev, Some(node.into()));
                 next.as_mut().prev = node.prev;
-            }
+            },
         }
 
         node.next = None;

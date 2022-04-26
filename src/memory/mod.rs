@@ -9,13 +9,20 @@ mod bytesmut;
 // Imports
 //==============================================================================
 
-use crate::{fail::Fail, types::dmtr_sgarray_t};
+use crate::{
+    fail::Fail,
+    types::dmtr_sgarray_t,
+};
 
 //==============================================================================
 // Exports
 //==============================================================================
 
-pub use self::{buffer::Buffer, bytes::Bytes, bytesmut::BytesMut};
+pub use self::{
+    buffer::Buffer,
+    bytes::Bytes,
+    bytesmut::BytesMut,
+};
 
 //==============================================================================
 // Traits

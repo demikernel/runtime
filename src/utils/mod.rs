@@ -5,7 +5,10 @@
 // Imports
 //==============================================================================
 
-use ::rand::distributions::{Distribution, Standard};
+use ::rand::distributions::{
+    Distribution,
+    Standard,
+};
 
 //==============================================================================
 // Traits

@@ -16,10 +16,12 @@ use ::slab::Slab;
 // Imports
 //==============================================================================
 
-pub use self::qdesc::QDesc;
-pub use self::qresult::QResult;
-pub use self::qtoken::QToken;
-pub use self::qtype::QType;
+pub use self::{
+    qdesc::QDesc,
+    qresult::QResult,
+    qtoken::QToken,
+    qtype::QType,
+};
 
 //==============================================================================
 // Structures
@@ -73,8 +75,14 @@ impl IoQueueTable {
 #[cfg(test)]
 mod tests {
     use super::IoQueueTable;
-    use crate::{QDesc, QType};
-    use ::test::{black_box, Bencher};
+    use crate::{
+        QDesc,
+        QType,
+    };
+    use ::test::{
+        black_box,
+        Bencher,
+    };
 
     #[bench]
     fn bench_alloc_free(b: &mut Bencher) {

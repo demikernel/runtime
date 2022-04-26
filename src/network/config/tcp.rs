@@ -5,7 +5,11 @@
 // Imports
 //==============================================================================
 
-use crate::network::consts::{DEFAULT_MSS, MAX_MSS, MIN_MSS};
+use crate::network::consts::{
+    DEFAULT_MSS,
+    MAX_MSS,
+    MIN_MSS,
+};
 use ::std::time::Duration;
 
 //==============================================================================
@@ -190,7 +194,10 @@ impl Default for TcpConfig {
 
 #[cfg(test)]
 mod tests {
-    use crate::network::{config::TcpConfig, consts::DEFAULT_MSS};
+    use crate::network::{
+        config::TcpConfig,
+        consts::DEFAULT_MSS,
+    };
     use ::std::time::Duration;
 
     /// Tests default instantiation for [UdpConfig].

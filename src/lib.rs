@@ -20,7 +20,10 @@ extern crate derive_more;
 extern crate test;
 
 use self::{
-    memory::MemoryRuntime, network::NetworkRuntime, task::SchedulerRuntime, utils::UtilsRuntime,
+    memory::MemoryRuntime,
+    network::NetworkRuntime,
+    task::SchedulerRuntime,
+    utils::UtilsRuntime,
 };
 
 //==============================================================================
@@ -39,17 +42,16 @@ pub mod timer;
 pub mod types;
 pub mod utils;
 pub mod watched;
-pub use queue::QDesc;
-pub use queue::QResult;
-pub use queue::QToken;
-pub use queue::QType;
+pub use queue::{
+    QDesc,
+    QResult,
+    QToken,
+    QType,
+};
 
 //==============================================================================
 // Traits
 //==============================================================================
 
 /// Demikernel Runtime
-pub trait Runtime:
-    Clone + Unpin + SchedulerRuntime + UtilsRuntime + NetworkRuntime + MemoryRuntime + 'static
-{
-}
+pub trait Runtime: Clone + Unpin + SchedulerRuntime + UtilsRuntime + NetworkRuntime + MemoryRuntime + 'static {}

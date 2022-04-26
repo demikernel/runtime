@@ -5,14 +5,21 @@
 // Imports
 //==============================================================================
 
-use crate::collections::intrusive::double_linked_list::{LinkedList, ListNode};
+use crate::collections::intrusive::double_linked_list::{
+    LinkedList,
+    ListNode,
+};
 use ::futures::future::FusedFuture;
 use ::std::{
     cell::RefCell,
     fmt,
     future::Future,
     pin::Pin,
-    task::{Context, Poll, Waker},
+    task::{
+        Context,
+        Poll,
+        Waker,
+    },
 };
 
 //==============================================================================
@@ -133,20 +140,20 @@ impl<'a, T> Future for WatchFuture<'a, T> {
                         wait_node.state = WatchState::Registered;
                         unsafe { watch.inner.borrow_mut().waiters.add_front(wait_node) };
                         Poll::Pending
-                    }
+                    },
                     WatchState::Registered => {
                         match wait_node.task {
                             Some(ref w) if w.will_wake(cx.waker()) => (),
                             _ => wait_node.task = Some(cx.waker().clone()),
                         }
                         Poll::Pending
-                    }
+                    },
                     WatchState::Completed { ref mut polled } => {
                         *polled = true;
                         Poll::Ready(())
-                    }
+                    },
                 }
-            }
+            },
         }
     }
 }
@@ -155,9 +162,7 @@ impl<'a, T> FusedFuture for WatchFuture<'a, T> {
     fn is_terminated(&self) -> bool {
         match self {
             Self::Pending => false,
-            Self::Completable(inner) => {
-                inner.wait_node.state == WatchState::Completed { polled: true }
-            }
+            Self::Completable(inner) => inner.wait_node.state == WatchState::Completed { polled: true },
         }
     }
 }
@@ -174,7 +179,7 @@ impl<'a, T> Drop for WatchFuture<'a, T> {
                     }
                     inner.wait_node.state = WatchState::Unregistered;
                 }
-            }
+            },
         }
     }
 }

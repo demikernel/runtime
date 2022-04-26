@@ -9,4 +9,8 @@ mod portnum;
 // Exports
 //==============================================================================
 
-pub use self::{ipv4::Ipv4Addr, macaddr::MacAddress, portnum::Port16};
+pub use self::{
+    ipv4::Ipv4Addr,
+    macaddr::MacAddress,
+    portnum::Port16,
+};

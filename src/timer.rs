@@ -5,7 +5,10 @@
 // Imports
 //==============================================================================
 
-use crate::collections::intrusive::pairing_heap::{HeapNode, PairingHeap};
+use crate::collections::intrusive::pairing_heap::{
+    HeapNode,
+    PairingHeap,
+};
 use ::futures::future::FusedFuture;
 use ::std::{
     cell::RefCell,
@@ -14,8 +17,15 @@ use ::std::{
     ops::Deref,
     pin::Pin,
     rc::Rc,
-    task::{Context, Poll, Waker},
-    time::{Duration, Instant},
+    task::{
+        Context,
+        Poll,
+        Waker,
+    },
+    time::{
+        Duration,
+        Instant,
+    },
 };
 
 //==============================================================================
@@ -170,10 +180,7 @@ impl<P: TimerPtr> Future for WaitFuture<P> {
         let mut_self: &mut Self = unsafe { Pin::get_unchecked_mut(self) };
 
         let result = {
-            let ptr = mut_self
-                .ptr
-                .as_ref()
-                .expect("Polled future after completion");
+            let ptr = mut_self.ptr.as_ref().expect("Polled future after completion");
             let timer = ptr.timer();
 
             let mut inner = timer.inner.borrow_mut();
@@ -192,17 +199,13 @@ impl<P: TimerPtr> Future for WaitFuture<P> {
                         }
                         Poll::Pending
                     }
-                }
+                },
                 PollState::Registered => {
-                    if wait_node
-                        .task
-                        .as_ref()
-                        .map_or(true, |w| !w.will_wake(cx.waker()))
-                    {
+                    if wait_node.task.as_ref().map_or(true, |w| !w.will_wake(cx.waker())) {
                         wait_node.task = Some(cx.waker().clone());
                     }
                     Poll::Pending
-                }
+                },
                 PollState::Expired => Poll::Ready(()),
             }
         };
@@ -226,13 +229,7 @@ impl<P: TimerPtr> Drop for WaitFuture<P> {
         // Otherwise the timer would access invalid memory.
         if let Some(ptr) = &self.ptr {
             if let PollState::Registered = self.wait_node.state {
-                unsafe {
-                    ptr.timer()
-                        .inner
-                        .borrow_mut()
-                        .heap
-                        .remove(&mut self.wait_node)
-                };
+                unsafe { ptr.timer().inner.borrow_mut().heap.remove(&mut self.wait_node) };
                 self.wait_node.state = PollState::Unregistered;
             }
         }
@@ -245,14 +242,20 @@ impl<P: TimerPtr> Drop for WaitFuture<P> {
 
 #[cfg(test)]
 mod tests {
-    use super::{Timer, TimerRc};
+    use super::{
+        Timer,
+        TimerRc,
+    };
     use futures::task::noop_waker_ref;
     use std::{
         future::Future,
         pin::Pin,
         rc::Rc,
         task::Context,
-        time::{Duration, Instant},
+        time::{
+            Duration,
+            Instant,
+        },
     };
 
     #[test]

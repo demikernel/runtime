@@ -7,9 +7,16 @@
 
 use crate::{
     network::{
-        config::{ArpConfig, TcpConfig, UdpConfig},
+        config::{
+            ArpConfig,
+            TcpConfig,
+            UdpConfig,
+        },
         consts::RECEIVE_BATCH_SIZE,
-        types::{Ipv4Addr, MacAddress},
+        types::{
+            Ipv4Addr,
+            MacAddress,
+        },
     },
     MemoryRuntime,
 };

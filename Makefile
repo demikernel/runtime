@@ -9,14 +9,19 @@ export BUILD ?= --release
 
 #===============================================================================
 
-all:
+all: check-fmt
 	$(CARGO) build --all $(BUILD) $(CARGO_FLAGS)
 
-test:
+test: check-fmt
 	$(CARGO) test $(BUILD) $(CARGO_FLAGS) $(TEST) -- --nocapture
 
-bench:
+bench: check-fmt
 	$(CARGO) bench $(CARGO_FLAGS) $(TEST)
+
+check-fmt: check-fmt-rust
+
+check-fmt-rust:
+	$(CARGO) fmt -- --check
 
 doc:
 	$(CARGO) doc $(CARGO_FLAGS) --no-deps

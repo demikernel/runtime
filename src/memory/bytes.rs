@@ -7,7 +7,10 @@
 
 use crate::memory::Buffer;
 use ::std::{
-    fmt::{self, Debug},
+    fmt::{
+        self,
+        Debug,
+    },
     ops::Deref,
     sync::Arc,
 };
@@ -103,10 +106,7 @@ impl Buffer for Bytes {
     /// Removes the last `nbytes` bytes of the target [Buffer].
     fn trim(&mut self, nbytes: usize) {
         if nbytes > self.len {
-            panic!(
-                "Trimming past beginning of buffer: {} vs. {}",
-                nbytes, self.len
-            );
+            panic!("Trimming past beginning of buffer: {} vs. {}", nbytes, self.len);
         }
         self.len -= nbytes;
     }
@@ -118,7 +118,10 @@ impl Buffer for Bytes {
 
 #[cfg(test)]
 mod tests {
-    use super::{Buffer, Bytes};
+    use super::{
+        Buffer,
+        Bytes,
+    };
     use std::sync::Arc;
 
     /// Tests for buffer adjust.

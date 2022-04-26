@@ -18,6 +18,9 @@ test:
 bench:
 	$(CARGO) bench $(CARGO_FLAGS) $(TEST)
 
+doc:
+	$(CARGO) doc $(CARGO_FLAGS) --no-deps
+
 clean:
 	rm -rf target && \
 	$(CARGO) clean && \

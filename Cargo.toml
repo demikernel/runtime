@@ -1,8 +1,8 @@
 [package]
 name = "runtime"
-version = "0.1.0"
+version = "1.0.0"
 authors = [ "Microsoft Corporation" ]
-description = "Runtime for Demikernel"
+description = "Demikernel's Runtime"
 homepage = "https://aka.ms/demikernel"
 repository = "https://github.com/demikernel/catnip"
 readme = "README.md"

@@ -21,7 +21,7 @@ log = "0.4.14"
 slab = "0.4.5"
 rand = { version = "0.8.4", features = ["small_rng"] }
 
-catwalk = { git = "https://github.com/demikernel/catwalk", rev = "05201a072b4d6b3afd7c02de69045f423563228f" }
+scheduler = { git = "https://github.com/demikernel/scheduler", rev = "fa95977f399eebfcfcd63aae506d72c1cb1756ec" }
 
 [profile.release]
 lto = "fat"

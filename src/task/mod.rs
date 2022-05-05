@@ -5,7 +5,7 @@
 // Imports
 //==============================================================================
 
-use ::catwalk::{
+use ::scheduler::{
     SchedulerFuture,
     SchedulerHandle,
 };

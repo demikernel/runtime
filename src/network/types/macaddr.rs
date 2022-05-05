@@ -59,6 +59,11 @@ impl MacAddress {
         self.0.is_broadcast()
     }
 
+    /// Queries whether or not the target [MacAddress] is a multicast one.
+    pub fn is_multicast(self) -> bool {
+        self.0.is_multicast()
+    }
+
     /// Queries whether or not the target [MacAddress] is a unicast one.
     pub fn is_unicast(self) -> bool {
         self.0.is_unicast()

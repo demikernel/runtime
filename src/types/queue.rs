@@ -8,4 +8,4 @@
 //==============================================================================
 
 /// Queue Token
-pub type dmtr_qtoken_t = u64;
+pub type demi_qtoken_t = u64;

@@ -8,8 +8,8 @@
 //==============================================================================
 
 use crate::types::{
-    memory::dmtr_sgarray_t,
-    queue::dmtr_qtoken_t,
+    memory::demi_sgarray_t,
+    queue::demi_qtoken_t,
 };
 use ::libc::{
     c_int,
@@ -23,34 +23,34 @@ use ::libc::{
 /// Operation Code
 #[repr(C)]
 #[derive(Debug, Eq, PartialEq)]
-pub enum dmtr_opcode_t {
-    DMTR_OPC_INVALID = 0,
-    DMTR_OPC_PUSH,
-    DMTR_OPC_POP,
-    DMTR_OPC_ACCEPT,
-    DMTR_OPC_CONNECT,
-    DMTR_OPC_FAILED,
+pub enum demi_opcode_t {
+    DEMI_OPC_INVALID = 0,
+    DEMI_OPC_PUSH,
+    DEMI_OPC_POP,
+    DEMI_OPC_ACCEPT,
+    DEMI_OPC_CONNECT,
+    DEMI_OPC_FAILED,
 }
 
 /// Result for `accept()`
 #[repr(C)]
 #[derive(Copy, Clone)]
-pub struct dmtr_accept_result_t {
+pub struct demi_accept_result_t {
     pub qd: c_int,
     pub addr: sockaddr_in,
 }
 
 #[repr(C)]
-pub union dmtr_qr_value_t {
-    pub sga: dmtr_sgarray_t,
-    pub ares: dmtr_accept_result_t,
+pub union demi_qr_value_t {
+    pub sga: demi_sgarray_t,
+    pub ares: demi_accept_result_t,
 }
 
 /// Result
 #[repr(C)]
-pub struct dmtr_qresult_t {
-    pub qr_opcode: dmtr_opcode_t,
+pub struct demi_qresult_t {
+    pub qr_opcode: demi_opcode_t,
     pub qr_qd: c_int,
-    pub qr_qt: dmtr_qtoken_t,
-    pub qr_value: dmtr_qr_value_t,
+    pub qr_qt: demi_qtoken_t,
+    pub qr_value: demi_qr_value_t,
 }

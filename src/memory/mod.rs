@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 mod buffer;
-mod bytes;
-mod bytesmut;
 mod databuffer;
 
 //==============================================================================
@@ -21,8 +19,7 @@ use crate::{
 
 pub use self::{
     buffer::Buffer,
-    bytes::Bytes,
-    bytesmut::BytesMut,
+    databuffer::DataBuffer,
 };
 
 //==============================================================================

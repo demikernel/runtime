@@ -1,6 +1,6 @@
 [package]
 name = "runtime"
-version = "1.0.0"
+version = "1.0.1"
 authors = [ "Microsoft Corporation" ]
 description = "Demikernel's Runtime"
 homepage = "https://aka.ms/demikernel"

@@ -10,6 +10,7 @@ use crate::{
     memory::Buffer,
 };
 use ::std::{
+    any::Any,
     fmt,
     fmt::Debug,
     ops::{
@@ -89,6 +90,20 @@ impl DataBuffer {
         }
 
         Err(Fail::new(libc::EINVAL, "zero-length buffer"))
+    }
+
+    /// Creates an empty buffer.
+    pub fn empty() -> Self {
+        Self {
+            data: None,
+            offset: 0,
+            len: 0,
+        }
+    }
+
+    /// Creates a data buffer from a slice.
+    pub fn from_slice(src: &[u8]) -> Self {
+        src.into()
     }
 }
 
@@ -173,18 +188,18 @@ impl Buffer for DataBuffer {
         self.len -= nbytes;
     }
 
+    fn clone(&self) -> Box<dyn Buffer> {
+        let dbuf: DataBuffer = DataBuffer {
+            data: self.data.clone(),
+            offset: self.offset,
+            len: self.len,
+        };
 
-    /// Creates an empty buffer.
-    fn empty() -> Self {
-        Self {
-            data: None,
-            offset: 0,
-            len: 0,
-        }
+        Box::new(dbuf)
     }
 
-    /// Creates a data buffer from a slice.
-    fn from_slice(src: &[u8]) -> Self {
-        src.into()
+    // Coerces the target data buffer into any data type.
+    fn as_any(&self) -> &dyn Any {
+        self
     }
 }

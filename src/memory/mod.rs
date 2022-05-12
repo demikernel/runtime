@@ -28,11 +28,8 @@ pub use self::{
 
 /// Memory Runtime
 pub trait MemoryRuntime {
-    /// Memory Buffer
-    type Buf: Buffer;
-
     /// Creates a [demi_sgarray_t] from a [Buffer].
-    fn into_sgarray(&self, buf: Self::Buf) -> Result<demi_sgarray_t, Fail>;
+    fn into_sgarray(&self, buf: Box<dyn Buffer>) -> Result<demi_sgarray_t, Fail>;
 
     /// Allocates a [demi_sgarray_t].
     fn alloc_sgarray(&self, size: usize) -> Result<demi_sgarray_t, Fail>;
@@ -41,5 +38,5 @@ pub trait MemoryRuntime {
     fn free_sgarray(&self, sga: demi_sgarray_t) -> Result<(), Fail>;
 
     /// Clones a [demi_sgarray_t] into a [Buffer].
-    fn clone_sgarray(&self, sga: &demi_sgarray_t) -> Result<Self::Buf, Fail>;
+    fn clone_sgarray(&self, sga: &demi_sgarray_t) -> Result<Box<dyn Buffer>, Fail>;
 }

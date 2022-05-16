@@ -16,7 +16,7 @@ eui48 = "1.1.0"
 float_duration = "0.3.3"
 flexi_logger = "0.22.3"
 futures = "0.3.21"
-libc = "0.2.115"
+libc = "0.2.125"
 log = "0.4.14"
 slab = "0.4.5"
 rand = { version = "0.8.4", features = ["small_rng"] }

@@ -18,7 +18,7 @@ flexi_logger = "0.22.3"
 futures = "0.3.21"
 libc = "0.2.125"
 log = "0.4.17"
-slab = "0.4.5"
+slab = "0.4.6"
 rand = { version = "0.8.4", features = ["small_rng"] }
 
 scheduler = { git = "https://github.com/demikernel/scheduler", rev = "7bd71378a6121e33bf55f79248f2a2a812815d6e" }

@@ -21,7 +21,7 @@ log = "0.4.14"
 slab = "0.4.5"
 rand = { version = "0.8.4", features = ["small_rng"] }
 
-scheduler = { git = "https://github.com/demikernel/scheduler", rev = "9583bfd7ceae1c0ee62cef0e69b37752d8475ccc" }
+scheduler = { git = "https://github.com/demikernel/scheduler", rev = "7bd71378a6121e33bf55f79248f2a2a812815d6e" }
 
 [profile.release]
 lto = "fat"

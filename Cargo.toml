@@ -22,6 +22,14 @@ slab = "0.4.6"
 rand = { version = "0.8.5", features = ["small_rng"] }
 
 scheduler = { git = "https://github.com/demikernel/scheduler", rev = "7bd71378a6121e33bf55f79248f2a2a812815d6e" }
+liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "99a28909284bf5b9e23dd8df4c61b35c8731e217", optional = true}
+dpdk-rs = { git = "https://github.com/demikernel/dpdk-rs", rev = "f6619d5313fc224e6bf8620df7485517efea0e39", optional = true }
+
+[features]
+default = [ ]
+libdpdk = [ "dpdk-rs" ]
+mlx4 = [ "dpdk-rs/mlx4" ]
+mlx5 = [ "dpdk-rs/mlx5" ]
 
 [profile.release]
 lto = "fat"

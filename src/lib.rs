@@ -49,6 +49,14 @@ pub use queue::{
     QType,
 };
 
+pub use scheduler;
+
+#[cfg(feature = "liburing")]
+pub use liburing;
+
+#[cfg(feature = "libdpdk")]
+pub use dpdk_rs as libdpdk;
+
 //==============================================================================
 // Traits
 //==============================================================================

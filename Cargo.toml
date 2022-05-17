@@ -22,6 +22,10 @@ slab = "0.4.6"
 rand = { version = "0.8.5", features = ["small_rng"] }
 
 scheduler = { git = "https://github.com/demikernel/scheduler", rev = "7bd71378a6121e33bf55f79248f2a2a812815d6e" }
+liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "99a28909284bf5b9e23dd8df4c61b35c8731e217", optional = true}
+
+[features]
+default = [ ]
 
 [profile.release]
 lto = "fat"

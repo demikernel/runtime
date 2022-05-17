@@ -2,10 +2,25 @@
 # Licensed under the MIT license.
 
 #===============================================================================
+# Default Paths
+#===============================================================================
 
+export PREFIX ?= $(HOME)
+export PKG_CONFIG_PATH ?= $(shell find $(PREFIX)/lib/ -name '*pkgconfig*' -type d | xargs | sed -e 's/\s/:/g')
+export LD_LIBRARY_PATH ?= $(HOME)/lib:$(shell find $(PREFIX)/lib/ -name '*x86_64-linux-gnu*' -type d | xargs | sed -e 's/\s/:/g')
+
+#===============================================================================
+# Toolchain Configuration
+#===============================================================================
+
+# Rust Toolchain
+export BUILD ?= --release
 export CARGO ?= $(HOME)/.cargo/bin/cargo
 
-export BUILD ?= --release
+# Switch for Liburing
+ifeq ($(LIBURING),yes)
+export BUILD += --features=liburing
+endif
 
 #===============================================================================
 

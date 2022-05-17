@@ -5,13 +5,8 @@
 // Imports
 //==============================================================================
 
-use crate::{
-    fail::Fail,
-    memory::Buffer,
-};
-use ::std::{
-    any::Any,
-    fmt,
+use crate::fail::Fail;
+use std::{
     fmt::Debug,
     ops::{
         Deref,
@@ -26,7 +21,7 @@ use ::std::{
 //==============================================================================
 
 /// Data Buffer
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct DataBuffer {
     /// Underlying data.
     data: Option<Arc<[u8]>>,
@@ -44,6 +39,23 @@ pub struct DataBuffer {
 
 /// Associated Functions for Data Buffers
 impl DataBuffer {
+    /// Removes bytes from the front of the target data buffer.
+    pub fn adjust(&mut self, nbytes: usize) {
+        if nbytes > self.len {
+            panic!("adjusting past end of buffer: {} vs {}", nbytes, self.len);
+        }
+        self.offset += nbytes;
+        self.len -= nbytes;
+    }
+
+    /// Removes bytes from the end of the target data buffer.
+    pub fn trim(&mut self, nbytes: usize) {
+        if nbytes > self.len {
+            panic!("trimming past beginning of buffer: {} vs {}", nbytes, self.len);
+        }
+        self.len -= nbytes;
+    }
+
     // Creates a data buffer with a given capacity.
     pub fn new(capacity: usize) -> Result<Self, Fail> {
         // Check if argument is valid.
@@ -111,35 +123,6 @@ impl DataBuffer {
 // Standard-Library Trait Implementations
 //==============================================================================
 
-/// Partial Equality Trait Implementation for Data Buffers
-impl PartialEq for DataBuffer {
-    fn eq(&self, rhs: &Self) -> bool {
-        self[..] == rhs[..]
-    }
-}
-
-/// Equality Trait Implementation for Data Buffers
-impl Eq for DataBuffer {}
-
-/// Conversion Trait Implementation for Data Buffers
-impl From<&[u8]> for DataBuffer {
-    fn from(src: &[u8]) -> Self {
-        let buf: Arc<[u8]> = src.into();
-        Self {
-            data: Some(buf),
-            offset: 0,
-            len: src.len(),
-        }
-    }
-}
-
-/// Debug Trait Implementation for Data Buffers
-impl Debug for DataBuffer {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "DataBuffer({:?})", &self[..])
-    }
-}
-
 /// De-Reference Trait Implementation for Data Buffers
 impl Deref for DataBuffer {
     type Target = [u8];
@@ -165,41 +148,14 @@ impl DerefMut for DataBuffer {
     }
 }
 
-//==============================================================================
-// Buffer Trait Implementation
-//==============================================================================
-
-/// Buffer Trait Implementation for Data Buffers
-impl Buffer for DataBuffer {
-    /// Removes bytes from the front of the target data buffer.
-    fn adjust(&mut self, nbytes: usize) {
-        if nbytes > self.len {
-            panic!("adjusting past end of buffer: {} vs {}", nbytes, self.len);
+/// Conversion Trait Implementation for Data Buffers
+impl From<&[u8]> for DataBuffer {
+    fn from(src: &[u8]) -> Self {
+        let buf: Arc<[u8]> = src.into();
+        Self {
+            data: Some(buf),
+            offset: 0,
+            len: src.len(),
         }
-        self.offset += nbytes;
-        self.len -= nbytes;
-    }
-
-    /// Removes bytes from the end of the target data buffer.
-    fn trim(&mut self, nbytes: usize) {
-        if nbytes > self.len {
-            panic!("trimming past beginning of buffer: {} vs {}", nbytes, self.len);
-        }
-        self.len -= nbytes;
-    }
-
-    fn clone(&self) -> Box<dyn Buffer> {
-        let dbuf: DataBuffer = DataBuffer {
-            data: self.data.clone(),
-            offset: self.offset,
-            len: self.len,
-        };
-
-        Box::new(dbuf)
-    }
-
-    // Coerces the target data buffer into any data type.
-    fn as_any(&self) -> &dyn Any {
-        self
     }
 }

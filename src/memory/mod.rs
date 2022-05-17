@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 mod buffer;
-mod databuffer;
 
 //==============================================================================
 // Imports
@@ -17,10 +16,7 @@ use crate::{
 // Exports
 //==============================================================================
 
-pub use self::{
-    buffer::Buffer,
-    databuffer::DataBuffer,
-};
+pub use self::buffer::*;
 
 //==============================================================================
 // Traits
@@ -29,7 +25,7 @@ pub use self::{
 /// Memory Runtime
 pub trait MemoryRuntime {
     /// Creates a [demi_sgarray_t] from a [Buffer].
-    fn into_sgarray(&self, buf: Box<dyn Buffer>) -> Result<demi_sgarray_t, Fail>;
+    fn into_sgarray(&self, buf: Buffer) -> Result<demi_sgarray_t, Fail>;
 
     /// Allocates a [demi_sgarray_t].
     fn alloc_sgarray(&self, size: usize) -> Result<demi_sgarray_t, Fail>;
@@ -38,5 +34,5 @@ pub trait MemoryRuntime {
     fn free_sgarray(&self, sga: demi_sgarray_t) -> Result<(), Fail>;
 
     /// Clones a [demi_sgarray_t] into a [Buffer].
-    fn clone_sgarray(&self, sga: &demi_sgarray_t) -> Result<Box<dyn Buffer>, Fail>;
+    fn clone_sgarray(&self, sga: &demi_sgarray_t) -> Result<Buffer, Fail>;
 }

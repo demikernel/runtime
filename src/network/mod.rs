@@ -43,7 +43,7 @@ pub trait PacketBuf {
     /// Returns the body size of the target [PacketBuf].
     fn body_size(&self) -> usize;
     /// Consumes and returns the body of the target [PacketBuf].
-    fn take_body(self) -> Option<Box<dyn Buffer>>;
+    fn take_body(self) -> Option<Buffer>;
 }
 
 /// Network Runtime
@@ -52,7 +52,7 @@ pub trait NetworkRuntime {
     fn transmit(&self, pkt: impl PacketBuf);
 
     /// Receives a batch of [PacketBuf].
-    fn receive(&self) -> ArrayVec<Box<dyn Buffer>, RECEIVE_BATCH_SIZE>;
+    fn receive(&self) -> ArrayVec<Buffer, RECEIVE_BATCH_SIZE>;
 
     /// Returns the [MacAddress] of the local endpoint.
     fn local_link_addr(&self) -> MacAddress;

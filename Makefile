@@ -22,6 +22,12 @@ ifeq ($(LIBURING),yes)
 export BUILD += --features=liburing
 endif
 
+# Switch for Libdpdk
+ifeq ($(LIBDPDK),yes)
+DRIVER ?= $(shell [ ! -z "`lspci | grep -E "ConnectX-[4,5]"`" ] && echo mlx5 || echo mlx4)
+export BUILD += --features=libdpdk --features=$(DRIVER)
+endif
+
 #===============================================================================
 
 all: check-fmt

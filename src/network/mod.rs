@@ -6,6 +6,7 @@
 //==============================================================================
 
 use crate::{
+    memory::Buffer,
     network::{
         config::{
             ArpConfig,
@@ -35,7 +36,7 @@ pub mod types;
 //==============================================================================
 
 /// Packet Buffer
-pub trait PacketBuf<T>: Sized {
+pub trait PacketBuf {
     /// Returns the header size of the target [PacketBuf].
     fn header_size(&self) -> usize;
     /// Writes the header of the target [PacketBuf] into a slice.
@@ -43,16 +44,16 @@ pub trait PacketBuf<T>: Sized {
     /// Returns the body size of the target [PacketBuf].
     fn body_size(&self) -> usize;
     /// Consumes and returns the body of the target [PacketBuf].
-    fn take_body(self) -> Option<T>;
+    fn take_body(self) -> Option<Box<dyn Buffer>>;
 }
 
 /// Network Runtime
 pub trait NetworkRuntime: MemoryRuntime {
     /// Transmits a single [PacketBuf].
-    fn transmit(&self, pkt: impl PacketBuf<Self::Buf>);
+    fn transmit(&self, pkt: impl PacketBuf);
 
     /// Receives a batch of [PacketBuf].
-    fn receive(&self) -> ArrayVec<Self::Buf, RECEIVE_BATCH_SIZE>;
+    fn receive(&self) -> ArrayVec<Box<dyn Buffer>, RECEIVE_BATCH_SIZE>;
 
     /// Returns the [MacAddress] of the local endpoint.
     fn local_link_addr(&self) -> MacAddress;

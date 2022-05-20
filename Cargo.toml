@@ -16,14 +16,14 @@ eui48 = "1.1.0"
 float_duration = "0.3.3"
 flexi_logger = "0.22.3"
 futures = "0.3.21"
-libc = "0.2.125"
+libc = "0.2.126"
 log = "0.4.17"
 slab = "0.4.6"
 rand = { version = "0.8.5", features = ["small_rng"] }
 
-scheduler = { git = "https://github.com/demikernel/scheduler", rev = "7bd71378a6121e33bf55f79248f2a2a812815d6e" }
-liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "99a28909284bf5b9e23dd8df4c61b35c8731e217", optional = true}
-dpdk-rs = { git = "https://github.com/demikernel/dpdk-rs", rev = "f6619d5313fc224e6bf8620df7485517efea0e39", optional = true }
+scheduler = { git = "https://github.com/demikernel/scheduler", rev = "4334ffef84832e82fc86aaf5e6ecc7a05ad1bbdf" }
+liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "0b9d8a681f123adb60367ff72aa6e3cc198b3dd6", optional = true}
+dpdk-rs = { git = "https://github.com/demikernel/dpdk-rs", rev = "a53027171bf38da8d776235693458acdcf979632", optional = true }
 
 [features]
 default = [ ]

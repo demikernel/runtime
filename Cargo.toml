@@ -21,7 +21,7 @@ log = "0.4.17"
 slab = "0.4.6"
 rand = { version = "0.8.5", features = ["small_rng"] }
 
-scheduler = { git = "https://github.com/demikernel/scheduler", rev = "4334ffef84832e82fc86aaf5e6ecc7a05ad1bbdf" }
+scheduler = { git = "https://github.com/demikernel/scheduler", rev = "c40b142e8ee91b5cc18c841b92097af145225b0f" }
 liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "0b9d8a681f123adb60367ff72aa6e3cc198b3dd6", optional = true}
 dpdk-rs = { git = "https://github.com/demikernel/dpdk-rs", rev = "a53027171bf38da8d776235693458acdcf979632", optional = true }
 

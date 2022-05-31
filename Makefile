@@ -17,6 +17,11 @@ export LD_LIBRARY_PATH ?= $(HOME)/lib:$(shell find $(PREFIX)/lib/ -name '*x86_64
 export BUILD ?= --release
 export CARGO ?= $(HOME)/.cargo/bin/cargo
 
+# Switch for Perftools
+ifeq ($(PERFTOOLS),yes)
+export BUILD += --features=perftools
+endif
+
 # Switch for Liburing
 ifeq ($(LIBURING),yes)
 export BUILD += --features=liburing

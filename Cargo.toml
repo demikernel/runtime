@@ -23,7 +23,7 @@ rand = { version = "0.8.5", features = ["small_rng"] }
 
 scheduler = { git = "https://github.com/demikernel/scheduler", rev = "820716f1d28411bc505396a64f4815052670f9d7" }
 liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "3afa79ffcaa27c8497ffdad317c91d6360f20824", optional = true}
-dpdk-rs = { git = "https://github.com/demikernel/dpdk-rs", rev = "a53027171bf38da8d776235693458acdcf979632", optional = true }
+dpdk-rs = { git = "https://github.com/demikernel/dpdk-rs", rev = "64cb440ec2a2dddf121e113f5d8f244f929c7f80", optional = true }
 
 [features]
 default = [ ]

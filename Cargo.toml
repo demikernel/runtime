@@ -19,7 +19,6 @@ futures = "0.3.21"
 libc = "0.2.126"
 log = "0.4.17"
 slab = "0.4.6"
-rand = { version = "0.8.5", features = ["small_rng"] }
 
 scheduler = { git = "https://github.com/demikernel/scheduler", rev = "820716f1d28411bc505396a64f4815052670f9d7" }
 liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "3afa79ffcaa27c8497ffdad317c91d6360f20824", optional = true}

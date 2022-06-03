@@ -51,6 +51,9 @@ pub use queue::{
 
 pub use scheduler;
 
+#[cfg(feature = "perftools")]
+pub use perftools;
+
 #[cfg(feature = "liburing")]
 pub use liburing;
 

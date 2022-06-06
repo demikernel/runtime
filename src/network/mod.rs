@@ -19,7 +19,6 @@ use crate::{
             MacAddress,
         },
     },
-    MemoryRuntime,
 };
 use ::arrayvec::ArrayVec;
 
@@ -48,7 +47,7 @@ pub trait PacketBuf {
 }
 
 /// Network Runtime
-pub trait NetworkRuntime: MemoryRuntime {
+pub trait NetworkRuntime {
     /// Transmits a single [PacketBuf].
     fn transmit(&self, pkt: impl PacketBuf);
 

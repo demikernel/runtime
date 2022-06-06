@@ -20,7 +20,6 @@ extern crate derive_more;
 extern crate test;
 
 use self::{
-    memory::MemoryRuntime,
     network::NetworkRuntime,
     task::SchedulerRuntime,
 };
@@ -63,4 +62,4 @@ pub use dpdk_rs as libdpdk;
 //==============================================================================
 
 /// Demikernel Runtime
-pub trait Runtime: Clone + Unpin + SchedulerRuntime + NetworkRuntime + MemoryRuntime + 'static {}
+pub trait Runtime: Clone + Unpin + SchedulerRuntime + NetworkRuntime + 'static {}

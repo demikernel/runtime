@@ -23,7 +23,6 @@ use self::{
     memory::MemoryRuntime,
     network::NetworkRuntime,
     task::SchedulerRuntime,
-    utils::UtilsRuntime,
 };
 
 //==============================================================================
@@ -40,7 +39,6 @@ pub mod queue;
 pub mod task;
 pub mod timer;
 pub mod types;
-pub mod utils;
 pub mod watched;
 pub use queue::{
     QDesc,
@@ -65,4 +63,4 @@ pub use dpdk_rs as libdpdk;
 //==============================================================================
 
 /// Demikernel Runtime
-pub trait Runtime: Clone + Unpin + SchedulerRuntime + UtilsRuntime + NetworkRuntime + MemoryRuntime + 'static {}
+pub trait Runtime: Clone + Unpin + SchedulerRuntime + NetworkRuntime + MemoryRuntime + 'static {}

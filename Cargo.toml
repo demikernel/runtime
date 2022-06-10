@@ -21,7 +21,7 @@ log = "0.4.17"
 slab = "0.4.6"
 
 scheduler = { git = "https://github.com/demikernel/scheduler", rev = "820716f1d28411bc505396a64f4815052670f9d7" }
-liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "3afa79ffcaa27c8497ffdad317c91d6360f20824", optional = true}
+liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "52d86b1133dc4b1202563ac24e418fa2fd606067", optional = true}
 dpdk-rs = { git = "https://github.com/demikernel/dpdk-rs", rev = "64cb440ec2a2dddf121e113f5d8f244f929c7f80", optional = true }
 perftools = { git = "https://github.com/demikernel/perftools", rev = "78f581819417bbcba1e5e7fd3044e70d3f3facc2", optional = true}
 

@@ -18,6 +18,7 @@ float_duration = "0.3.3"
 libc = "0.2.115"
 slab = "0.4.5"
 rand = { version = "0.8.4", features = ["small_rng"] }
+serde = { version = "1.0", features = ["derive", "rc"]}
 
 catwalk = { git = "https://github.com/demikernel/catwalk", rev = "063cf220c3e81beb6562f798ebadab3d9c24f336" }
 

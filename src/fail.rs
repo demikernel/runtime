@@ -43,6 +43,7 @@ custom_error! {#[derive(Clone, PartialEq)] pub Fail
     AddressFamilySupport {} = "address family not supported",
     SocketTypeSupport {} = "socket type not supported",
     BadFileDescriptor {} = "bad file descriptor",
+    ConnectionMigratedOut = "Connection migrated out"
 }
 
 //==============================================================================
@@ -74,6 +75,7 @@ impl Fail {
             Fail::AddressFamilySupport { .. } => libc::EAFNOSUPPORT,
             Fail::SocketTypeSupport { .. } => libc::ESOCKTNOSUPPORT,
             Fail::BadFileDescriptor { .. } => libc::EBADF,
+            Fail::ConnectionMigratedOut => libc::EBADF,
         }
     }
 }

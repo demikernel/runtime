@@ -50,6 +50,9 @@ pub trait NetworkRuntime: MemoryRuntime {
     /// Returns the [MacAddress] of the local endpoint.
     fn local_link_addr(&self) -> MacAddress;
 
+    ///
+    // fn mac_address_migrated_in(&self) -> bool;
+
     /// Returns the [Ipv4Addr] of the local endpoint.
     fn local_ipv4_addr(&self) -> Ipv4Addr;
 
@@ -61,4 +64,5 @@ pub trait NetworkRuntime: MemoryRuntime {
 
     /// Returns the UDP Configuration Descriptor of the target [NetworkRuntime].
     fn udp_options(&self) -> UdpConfig;
+
 }

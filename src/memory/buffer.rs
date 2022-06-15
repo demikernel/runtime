@@ -6,13 +6,15 @@
 //==============================================================================
 
 use ::std::{fmt::Debug, ops::Deref};
+use serde::{Serialize};
+use serde::de::DeserializeOwned;
 
 //==============================================================================
 // Traits
 //==============================================================================
 
 /// Memory Buffer
-pub trait Buffer: Clone + Debug + Deref<Target = [u8]> + Sized + Unpin {
+pub trait Buffer: Eq + PartialEq + Clone + Debug + Deref<Target = [u8]> + Sized + Unpin + Serialize + DeserializeOwned {
     /// Creates an empty [Buffer].
     fn empty() -> Self;
 

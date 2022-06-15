@@ -11,13 +11,14 @@ use ::std::{
     ops::Deref,
     sync::Arc,
 };
+use serde::{Serialize, Deserialize};
 
 //==============================================================================
 // Structures
 //==============================================================================
 
 /// Non-Mutable Buffer
-#[derive(Clone, Default)]
+#[derive(Clone, Default, Deserialize, Serialize)]
 pub struct Bytes {
     /// Underlying Data
     data: Option<Arc<[u8]>>,

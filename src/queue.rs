@@ -22,7 +22,7 @@ pub enum IoQueueType {
 //==============================================================================
 
 /// IO Queue Descriptor
-#[derive(From, Into, Debug, Eq, PartialEq, Hash, Copy, Clone)]
+#[derive(From, Into, Debug, Eq, PartialEq, Hash, Clone, Copy)]
 pub struct IoQueueDescriptor(usize);
 
 /// IO Queue Table
@@ -49,7 +49,7 @@ impl IoQueueTable {
 
     /// Gets the file associated with an IO queue descriptor.
     pub fn get(&self, qd: IoQueueDescriptor) -> Option<IoQueueType> {
-        if !self.table.contains(qd.into()) {
+        if !self.table.contains(qd.clone().into()) {
             return None;
         }
 
@@ -58,7 +58,7 @@ impl IoQueueTable {
 
     /// Releases an entry in the target [IoQueueTable].
     pub fn free(&mut self, qd: IoQueueDescriptor) -> Option<IoQueueType> {
-        if !self.table.contains(qd.into()) {
+        if !self.table.contains(qd.clone().into()) {
             return None;
         }
 

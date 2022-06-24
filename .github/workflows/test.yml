@@ -3,126 +3,106 @@
 
 name: Test
 
-concurrency:
-  group: azure
-  cancel-in-progress: true
-
 on:
-  push:
-    branches:
-      - bugfix-*
-      - enhancement-*
-      - feature-*
-      - workaround-*
-      - dev
-      - unstable
-      - master
+  workflow_call:
+    secrets:
+      host:
+        required: true
+      port:
+        required: true
+      key:
+        required: true
+      username:
+        required: true
 
 env:
-  CARGO_TERM_COLOR: always
   GITHUB_REPOSITORY: $GITHUB_REPOSITORY
-  GITHUB_SHA: $GITHUB_SHA
 
 jobs:
 
-  #====================
-  # Setup
-  #====================
+  #=====================================================================================================================
+  # Build Debug
+  #=====================================================================================================================
 
-  # Demikernel 0
-  setup-demikernel0:
-    name: Demikernel 0
-    uses: demikernel/workflows/.github/workflows/setup.yml@dev
-    secrets:
-      host: ${{ secrets.CATNAP_HOSTNAME_A }}
-      port: ${{ secrets.PORTNUM }}
-      key: ${{ secrets.SSHKEY }}
-      username: ${{ secrets.USERNAME }}
+  build-debug:
+    name: Compile Debug
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build Debug
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.host }}
+        username: ${{ secrets.username }}
+        key: ${{ secrets.key }}
+        port: ${{ secrets.port }}
+        envs: GITHUB_REPOSITORY
+        script: |
+          echo repository: $GITHUB_REPOSITORY
+          cd $GITHUB_REPOSITORY
+          make all DEBUG=yes
 
-  # Demikernel 1
-  setup-demikernel1:
-    name: Demikernel 1
-    uses: demikernel/workflows/.github/workflows/setup.yml@dev
-    secrets:
-      host: ${{ secrets.CATNAP_HOSTNAME_B }}
-      port: ${{ secrets.PORTNUM }}
-      key: ${{ secrets.SSHKEY }}
-      username: ${{ secrets.USERNAME }}
+  #=====================================================================================================================
+  # Test Debug
+  #=====================================================================================================================
 
-  #====================
-  # Compile
-  #====================
+  test-debug:
+    name: Test Debug
+    needs: [build-debug]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Test Debug
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.host }}
+        username: ${{ secrets.username }}
+        key: ${{ secrets.key }}
+        port: ${{ secrets.port }}
+        envs: GITHUB_REPOSITORY
+        script: |
+          echo repository: $GITHUB_REPOSITORY
+          cd $GITHUB_REPOSITORY
+          make test DEBUG=yes
 
-  # Demikernel 0
-  build-demikernel0:
-    name: Demikernel 0
-    needs: [setup-demikernel0]
-    uses: demikernel/workflows/.github/workflows/compile.yml@dev
-    secrets:
-      host: ${{ secrets.CATNAP_HOSTNAME_A }}
-      port: ${{ secrets.PORTNUM }}
-      key: ${{ secrets.SSHKEY }}
-      username: ${{ secrets.USERNAME }}
+  #=====================================================================================================================
+  # Build Release
+  #=====================================================================================================================
 
-  # Demikernel 1
-  build-demikernel1:
-    name: Demikernel 1
-    needs: [setup-demikernel1]
-    uses: demikernel/workflows/.github/workflows/compile.yml@dev
-    secrets:
-      host: ${{ secrets.CATNAP_HOSTNAME_B }}
-      port: ${{ secrets.PORTNUM }}
-      key: ${{ secrets.SSHKEY }}
-      username: ${{ secrets.USERNAME }}
+  build-release:
+    name: Compile Release
+    needs: [test-debug]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build Release
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.host }}
+        username: ${{ secrets.username }}
+        key: ${{ secrets.key }}
+        port: ${{ secrets.port }}
+        envs: GITHUB_REPOSITORY
+        script: |
+          echo repository: $GITHUB_REPOSITORY
+          cd $GITHUB_REPOSITORY
+          make all DEBUG=yes
 
-  #====================
-  # Launch
-  #====================
+  #=====================================================================================================================
+  # Test Release
+  #=====================================================================================================================
 
-  # Demikernel 0
-  run-demikernel0:
-    name: Demikernel 0
-    needs: [build-demikernel0]
-    uses: demikernel/runtime/.github/workflows/run.yml@dev
-    secrets:
-      host: ${{ secrets.CATNAP_HOSTNAME_A }}
-      port: ${{ secrets.PORTNUM }}
-      key: ${{ secrets.SSHKEY }}
-      username: ${{ secrets.USERNAME }}
-
-  # Demikernel 1
-  run-demikernel1:
-    name: Demikernel 1
-    needs: [build-demikernel1]
-    uses: demikernel/runtime/.github/workflows/run.yml@dev
-    secrets:
-      host: ${{ secrets.CATNAP_HOSTNAME_B }}
-      port: ${{ secrets.PORTNUM }}
-      key: ${{ secrets.SSHKEY }}
-      username: ${{ secrets.USERNAME }}
-
-  #====================
-  # Cleanup
-  #====================
-
-  # Demikernel 0
-  cleanup-demikernel0:
-    name: Demikernel 0
-    needs: [run-demikernel0]
-    uses: demikernel/workflows/.github/workflows/cleanup.yml@dev
-    secrets:
-      host: ${{ secrets.CATNAP_HOSTNAME_A }}
-      port: ${{ secrets.PORTNUM }}
-      key: ${{ secrets.SSHKEY }}
-      username: ${{ secrets.USERNAME }}
-
-  # Demikernel 1
-  cleanup-demikernel1:
-    name: Demikernel 1
-    needs: [run-demikernel1]
-    uses: demikernel/workflows/.github/workflows/cleanup.yml@dev
-    secrets:
-      host: ${{ secrets.CATNAP_HOSTNAME_B }}
-      port: ${{ secrets.PORTNUM }}
-      key: ${{ secrets.SSHKEY }}
-      username: ${{ secrets.USERNAME }}
+  test-release:
+    name: Test Release
+    needs: [build-release]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Test Release
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.host }}
+        username: ${{ secrets.username }}
+        key: ${{ secrets.key }}
+        port: ${{ secrets.port }}
+        envs: GITHUB_REPOSITORY
+        script: |
+          echo repository: $GITHUB_REPOSITORY
+          cd $GITHUB_REPOSITORY
+          make test DEBUG=yes

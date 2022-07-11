@@ -22,7 +22,7 @@ slab = "0.4.6"
 
 scheduler = { git = "https://github.com/demikernel/scheduler", rev = "050a7100b1038587e861318566f7373d94b8e656" }
 liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "cb47d39981100e0fdeeb15306c849a95b0788f49", optional = true}
-dpdk-rs = { git = "https://github.com/demikernel/dpdk-rs", rev = "517052c05a27bff3dc7744f71de1ffa960b05c56", optional = true }
+dpdk-rs = { git = "https://github.com/demikernel/dpdk-rs", rev = "2988fbdcc7b91323bafb020b0045fe033d1cd3e3", optional = true }
 perftools = { git = "https://github.com/demikernel/perftools", rev = "9f4391f4a825bc9117f085805cf4abbce6bb7c89", optional = true}
 
 [features]

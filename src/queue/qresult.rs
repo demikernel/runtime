@@ -5,12 +5,11 @@
 // Imports
 //==============================================================================
 
+use ::std::net::IpAddr;
+
 use crate::{
     fail::Fail,
-    network::types::{
-        Ipv4Addr,
-        Port16,
-    },
+    network::types::Port16,
     QDesc,
 };
 
@@ -24,6 +23,6 @@ pub enum QResult {
     Accept(QDesc),
     Push,
     PushTo,
-    Pop(Option<(Ipv4Addr, Port16)>, Vec<u8>),
+    Pop(Option<(IpAddr, Port16)>, Vec<u8>),
     Failed(Fail),
 }

@@ -21,12 +21,12 @@ flexi_logger = "0.22.5"
 futures = "0.3.21"
 libc = "0.2.126"
 log = "0.4.17"
-slab = "0.4.6"
+slab = "0.4.7"
 
-scheduler = { git = "https://github.com/demikernel/scheduler", rev = "9037ee6da4322e902e79fdcf8e31999cc1a6d31f" }
+scheduler = { git = "https://github.com/demikernel/scheduler", rev = "1c1a3fa65e5c9e07a6653c302b4471978639823b" }
 liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "8ac9c294026862c0860b3e10a779cdcea23c2227", optional = true}
 dpdk-rs = { git = "https://github.com/demikernel/dpdk-rs", rev = "8e99db8efded55903a2eaaf74cb36665030601f5", optional = true }
-perftools = { git = "https://github.com/demikernel/perftools", rev = "26928018caec1c8201511c5b2440005440b5dcae", optional = true}
+perftools = { git = "https://github.com/demikernel/perftools", rev = "60ebf00d070cf450910acebaff21b61657028e45", optional = true}
 
 [features]
 default = [ ]

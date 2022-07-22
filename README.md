@@ -1,5 +1,4 @@
-Demikernel's Runtime
-=====================
+# Demikernel's Runtime
 
 [![Join us on Slack!](https://img.shields.io/badge/chat-on%20Slack-e01563.svg)](https://join.slack.com/t/demikernel/shared_invite/zt-11i6lgaw5-HFE_IAls7gUX3kp1XSab0g)
 [![Build](https://github.com/demikernel/runtime/actions/workflows/build.yml/badge.svg)](https://github.com/demikernel/runtime/actions/workflows/build.yml)
@@ -9,56 +8,56 @@ This is the flexible and lightweight runtime of Demikernel.
 
 > This project is a component of _Demikernel_ - a libOS architecture for
 kernel-bypass devices.
+>
+> To read more about _Demikernel_ check out <https://aka.ms/demikernel>.
 
-> To read more about _Demikernel_ check out https://aka.ms/demikernel.
+## Building and Running
 
-Building and Running
----------------------
+### 1. Clone This Repository
 
-**1. Clone This Repository**
-```
+```bash
 export WORKDIR=$HOME                                   # Change this to whatever you want.
 cd $WORKDIR                                            # Switch to working directory.
 git clone https://github.com/demikernel/runtime.git    # Clone.
 cd $WORKDIR/runtime                                    # Switch to repository's source tree.
 ```
 
-**1. Install Prerequisites (Only Once)**
-```
+### 2. Install Prerequisites (Only Once)
+
+```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-**3. Build the Sources**
-```
+### 3. Build the Sources
+
+```bash
 make all
 ```
 
-**4. Run Regression Tests**
-```
+### 4. Run Regression Tests
+
+```bash
 make test
 ```
 
-Documentation
---------------
+## Documentation
 
 - Checkout UML Documentation in [`etc/README.md`](./etc/README.md)
 - Checkout API Documentation (see instructions bellow)
 
-**1. Build API Documentation (Optional)**
-```
+### 1. Build API Documentation (Optional)
+
+```bash
 make doc
 ```
 
-Code of Conduct
----------------
+## Code of Conduct
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/)
 or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-
-Usage Statement
---------------
+## Usage Statement
 
 This project is a prototype. As such, we provide no guarantees that it will
 work and you are assuming any risks with using the code. We welcome comments

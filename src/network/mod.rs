@@ -14,11 +14,13 @@ use crate::{
             UdpConfig,
         },
         consts::RECEIVE_BATCH_SIZE,
-        types::MacAddress,
+        types::{
+            Ipv4Addr,
+            MacAddress,
+        },
     },
 };
 use ::arrayvec::ArrayVec;
-use ::std::net::IpAddr;
 
 //==============================================================================
 // Exports
@@ -55,8 +57,8 @@ pub trait NetworkRuntime {
     /// Returns the [MacAddress] of the local endpoint.
     fn local_link_addr(&self) -> MacAddress;
 
-    /// Returns the [IpAddr] of the local endpoint.
-    fn local_ip_addr(&self) -> IpAddr;
+    /// Returns the [Ipv4Addr] of the local endpoint.
+    fn local_ipv4_addr(&self) -> Ipv4Addr;
 
     /// Returns the ARP Configuration Descriptor of the target [NetworkRuntime].
     fn arp_options(&self) -> ArpConfig;

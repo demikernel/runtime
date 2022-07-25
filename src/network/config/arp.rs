@@ -5,10 +5,12 @@
 // Imports
 //==============================================================================
 
-use crate::network::types::MacAddress;
+use crate::network::types::{
+    Ipv4Addr,
+    MacAddress,
+};
 use ::std::{
     collections::HashMap,
-    net::IpAddr,
     time::Duration,
 };
 
@@ -26,7 +28,7 @@ pub struct ArpConfig {
     /// Retry Count for ARP Requests
     retry_count: usize,
     /// Initial Values for ARP Cache
-    initial_values: HashMap<IpAddr, MacAddress>,
+    initial_values: HashMap<Ipv4Addr, MacAddress>,
     /// Disable ARP?
     disable_arp: bool,
 }
@@ -42,7 +44,7 @@ impl ArpConfig {
         cache_ttl: Option<Duration>,
         request_timeout: Option<Duration>,
         retry_count: Option<usize>,
-        initial_values: Option<HashMap<IpAddr, MacAddress>>,
+        initial_values: Option<HashMap<Ipv4Addr, MacAddress>>,
         disable_arp: Option<bool>,
     ) -> Self {
         let mut config: ArpConfig = Self::default();
@@ -82,7 +84,7 @@ impl ArpConfig {
     }
 
     /// Gets the initial values for the ARP Cache in the target [ArpConfig].
-    pub fn get_initial_values(&self) -> &HashMap<IpAddr, MacAddress> {
+    pub fn get_initial_values(&self) -> &HashMap<Ipv4Addr, MacAddress> {
         &self.initial_values
     }
 
@@ -107,7 +109,7 @@ impl ArpConfig {
     }
 
     /// Sets the initial values for the ARP Cache in the target [ArpConfig].
-    fn set_initial_values(&mut self, initial_values: HashMap<IpAddr, MacAddress>) {
+    fn set_initial_values(&mut self, initial_values: HashMap<Ipv4Addr, MacAddress>) {
         self.initial_values = initial_values;
     }
 

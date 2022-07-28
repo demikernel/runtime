@@ -1,8 +1,18 @@
-use core::marker::PhantomData;
-use core::mem;
-use std::{ptr::NonNull, rc::Rc, mem::ManuallyDrop};
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+use core::{
+    marker::PhantomData,
+    mem,
+};
+use std::{
+    ptr::NonNull,
+    rc::Rc,
+    mem::ManuallyDrop
+};
 
 // An intrusive singly-linked list (FIFO queue) with owned elements.
+#[derive(Debug)]
 pub struct IntrusiveQueue<T: IntrusivelyQueueable> {
     front: Option<NonNull<T>>,
     back: Option<NonNull<T>>,
@@ -12,16 +22,19 @@ pub struct IntrusiveQueue<T: IntrusivelyQueueable> {
 
 impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
     // Create an empty IntrusiveQueue.
+    #[allow(dead_code)]
     #[inline]
     pub const fn new() -> Self {
         IntrusiveQueue { front: None, back: None, len: 0, phantom: PhantomData }
     }
 
+    #[allow(dead_code)]
     #[inline]
     pub fn is_empty(&self) -> bool {
         self.front.is_none()
     }
 
+    #[allow(dead_code)]
     #[inline]
     pub fn len(&self) -> usize {
         self.len
@@ -29,6 +42,7 @@ impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
 
     // Pop the first element off the front of the queue.
     // Call this pop_front to match VecDequeue?
+    #[allow(dead_code)]
     pub fn pop_element(&mut self) -> Option<Rc<T>> {
 
         if self.front.is_none() {
@@ -40,7 +54,7 @@ impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
             // The queue contains at least one element, so pop it off and return it.
 
             // Get the first element as an Rc<T>.
-            let popped = unsafe { Rc::from_raw(self.front.unwrap().as_mut()) };
+            let popped:Rc<T> = unsafe { Rc::from_raw(self.front.unwrap().as_mut()) };
 
             // Repoint the front pointer at the next element (or None).
             self.front = popped.get_queue_next();
@@ -62,6 +76,7 @@ impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
 
     // Add the given element to the back of the queue.
     // Call this push_back to match VecDequeue?
+    #[allow(dead_code)]
     pub fn push_element(&mut self, added: Rc<T>) {
 
         // Ensure the new element's next pointer doesn't point to anything.
@@ -150,17 +165,6 @@ mod tests {
         }
     }
 
-    #[cfg(nope)]
-    // Drop (just to print something for testing).
-    impl Drop for TestThingy {
-        fn drop(&mut self) {
-            println!("Dropping a TestThingy with data {}!", self.data);
-
-            drop(self.next.get());
-            drop(self.data);
-        }
-    }
-
     #[test]
     fn fifo_order() {
         // Create the queue.
@@ -189,14 +193,14 @@ mod tests {
         // Pop the elements off of the front of the queue.
         // They should come off in the same order they went on (i.e. FIFO queue).
         let mut check_data: u32 = 0;
-        while let Some(pop_element) = test_iq.pop_element() {
+        while let Some(popped_element) = test_iq.pop_element() {
             check_data += 1;
 
             // Verify the correct element popped.
-            assert_eq!(pop_element.data, check_data);
+            assert_eq!(popped_element.data, check_data);
 
             // Verify refcount on element Rc is 1.
-            assert_eq!(Rc::strong_count(&pop_element), 1);
+            assert_eq!(Rc::strong_count(&popped_element), 1);
 
             // Verify length of queue is correct.
             assert_eq!(test_iq.len(), 4 - check_data as usize);
@@ -245,8 +249,8 @@ mod tests {
             another_iq.push_element(element7);
 
             // Verify: The queue should now contain 2 elements.
-            assert_eq!(test_iq.is_empty(), false);
-            assert_eq!(test_iq.len(), 2);
+            assert_eq!(another_iq.is_empty(), false);
+            assert_eq!(another_iq.len(), 2);
 
             // Leaving this scope should drop the IntrusiveQueue with the two elements that are on it, as well as the
             // two unattached elements.

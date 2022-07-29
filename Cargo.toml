@@ -23,10 +23,10 @@ libc = "0.2.126"
 log = "0.4.17"
 slab = "0.4.7"
 
-scheduler = { git = "https://github.com/demikernel/scheduler", rev = "1c1a3fa65e5c9e07a6653c302b4471978639823b" }
-liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "8ac9c294026862c0860b3e10a779cdcea23c2227", optional = true}
-dpdk-rs = { git = "https://github.com/demikernel/dpdk-rs", rev = "8e99db8efded55903a2eaaf74cb36665030601f5", optional = true }
-perftools = { git = "https://github.com/demikernel/perftools", rev = "60ebf00d070cf450910acebaff21b61657028e45", optional = true}
+scheduler = { git = "https://github.com/demikernel/scheduler", rev = "b7a009446a468cff2c6bf8ff5f8dbb9be2daf066" }
+liburing = { git = "https://github.com/demikernel/liburing-rs", rev = "2cba2e67bd633e38e13c1e109186ba4ad56c766b", optional = true}
+dpdk-rs = { git = "https://github.com/demikernel/dpdk-rs", rev = "da594166f630581a127063c20e00dfef80e5813a", optional = true }
+perftools = { git = "https://github.com/demikernel/perftools", rev = "1efc8b203e3a1bd66dfb252266622a79c23bb638", optional = true}
 
 [features]
 default = [ ]

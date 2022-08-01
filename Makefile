@@ -2,47 +2,16 @@
 # Licensed under the MIT license.
 
 #=======================================================================================================================
-# Default Paths
-#=======================================================================================================================
 
-export PREFIX ?= $(HOME)
-export PKG_CONFIG_PATH ?= $(shell find $(PREFIX)/lib/ -name '*pkgconfig*' -type d | xargs | sed -e 's/\s/:/g')
-export LD_LIBRARY_PATH ?= $(HOME)/lib:$(shell find $(PREFIX)/lib/ -name '*x86_64-linux-gnu*' -type d | xargs | sed -e 's/\s/:/g')
-
-#=======================================================================================================================
-# Toolchain Configuration
-#=======================================================================================================================
-
-export CARGO ?= $(HOME)/.cargo/bin/cargo
-
-# Switches:
-# - TEST    Test to run.
-# - BENCH   Microbenchmark to run.
-# - FLAGS   Flags passed to cargo.
-
-# Switch for Perftools
-ifeq ($(PERFTOOLS),yes)
-export FLAGS += --features=perftools
-endif
-
-# Switch for Liburing
-ifeq ($(LIBURING),yes)
-export FLAGS += --features=liburing
-endif
-
-# Switch for Libdpdk
-ifeq ($(LIBDPDK),yes)
-DRIVER ?= $(shell [ ! -z "`lspci | grep -E "ConnectX-[4,5]"`" ] && echo mlx5 || echo mlx4)
-export FLAGS += --features=libdpdk --features=$(DRIVER)
-endif
-
-# Set build mode.
-ifneq ($(DEBUG),yes)
-export BUILD = release
-else
-export BUILD = dev
-endif
-export FLAGS += --profile $(BUILD)
+# This is a trick to enable portability across MAKE and NMAKE.
+# MAKE recognizes line continuation in comments but NMAKE doesn't.
+# NMAKE               \
+!ifndef 0 #           \
+!include windows.mk # \
+!else
+include linux.mk
+#                     \
+!endif
 
 #=======================================================================================================================
 
@@ -71,6 +40,5 @@ doc:
 
 # Cleans up all build artifacts.
 clean:
-	rm -rf target && \
-	$(CARGO) clean && \
-	rm -f Cargo.lock
+	$(CARGO) clean
+	$(RM) Cargo.lock

@@ -13,7 +13,7 @@ use crate::types::{
 };
 use ::libc::{
     c_int,
-    sockaddr_in,
+    sockaddr,
 };
 
 //==============================================================================
@@ -37,7 +37,7 @@ pub enum demi_opcode_t {
 #[derive(Copy, Clone)]
 pub struct demi_accept_result_t {
     pub qd: c_int,
-    pub addr: sockaddr_in,
+    pub addr: sockaddr,
 }
 
 #[repr(C)]

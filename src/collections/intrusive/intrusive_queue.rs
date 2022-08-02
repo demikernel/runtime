@@ -93,7 +93,7 @@ impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
             // Note: we use ManuallyDrop when reforming the Rc so that we don't drop our original ref on the T when
             // old_back goes out of scope.  The element that was pointed to by old_back is still in the queue.
             let old_back: ManuallyDrop<Rc<T>> =
-                 unsafe { mem::ManuallyDrop::new(Rc::from_raw(self.back.unwrap().as_mut())) };
+                unsafe { mem::ManuallyDrop::new(Rc::from_raw(self.back.unwrap().as_mut())) };
             old_back.set_queue_next(added);
         }
 
@@ -127,12 +127,12 @@ mod tests {
     use core::cell::Cell;
     use std::{
         ptr::NonNull,
-        rc::Rc
+        rc::Rc,
     };
 
     use super::{
         IntrusiveQueue,
-        IntrusivelyQueueable
+        IntrusivelyQueueable,
     };
 
     // A test element.

@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 use std::{
-    ptr::NonNull,
-    rc::Rc,
     marker::PhantomData,
     mem,
     mem::ManuallyDrop,
+    ptr::NonNull,
+    rc::Rc,
 };
 
 // An intrusive singly-linked list (FIFO queue) with owned elements.
@@ -26,7 +26,12 @@ impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
     // Create an empty IntrusiveQueue.
     #[inline]
     pub const fn new() -> Self {
-        IntrusiveQueue { front: None, back: None, len: 0, phantom: PhantomData }
+        IntrusiveQueue {
+            front: None,
+            back: None,
+            len: 0,
+            phantom: PhantomData,
+        }
     }
 
     #[inline]
@@ -42,17 +47,14 @@ impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
     // Pop the first element off the front of the queue.
     // Call this pop_front to match VecDequeue?
     pub fn pop_element(&mut self) -> Option<Rc<T>> {
-
         if self.front.is_none() {
             // Nothing on the queue, so return None.
             None
-        }
-        else
-        {
+        } else {
             // The queue contains at least one element, so pop it off and return it.
 
             // Get the first element as an Rc<T>.
-            let popped:Rc<T> = unsafe { Rc::from_raw(self.front.unwrap().as_mut()) };
+            let popped: Rc<T> = unsafe { Rc::from_raw(self.front.unwrap().as_mut()) };
 
             // Repoint the front pointer at the next element (or None).
             self.front = popped.get_queue_next();
@@ -75,27 +77,23 @@ impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
     // Add the given element to the back of the queue.
     // Call this push_back to match VecDequeue?
     pub fn push_element(&mut self, added: Rc<T>) {
-
         // Ensure the new element's next pointer doesn't point to anything.
         added.set_queue_next(None);
 
         // Convert from an Rc<T> to a raw pointer.
         // Note: Rc::into_raw does NOT decrement the reference count (which is the behavior we want).
-        let added:Option<NonNull<T>> = NonNull::new(Rc::into_raw(added) as *mut T);
+        let added: Option<NonNull<T>> = NonNull::new(Rc::into_raw(added) as *mut T);
 
         if self.front.is_none() {
             // Nothing currently on the queue, so the new element also becomes the front.
             self.front = added;
-        }
-        else
-        {
+        } else {
             // Point the current last element's next pointer at the new element.  To do that we first need to reform an
             // Rc for this element in order to get at its IntrusivelyQueueable trait functions.
             // Note: we use ManuallyDrop when reforming the Rc so that we don't drop our original ref on the T when
             // old_back goes out of scope.  The element that was pointed to by old_back is still in the queue.
-            let old_back: ManuallyDrop<Rc<T>> = unsafe {
-                mem::ManuallyDrop::new(Rc::from_raw(self.back.unwrap().as_mut()))
-            };
+            let old_back: ManuallyDrop<Rc<T>> =
+                 unsafe { mem::ManuallyDrop::new(Rc::from_raw(self.back.unwrap().as_mut())) };
             old_back.set_queue_next(added);
         }
 
@@ -103,8 +101,6 @@ impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
         self.back = added;
         self.len += 1;
     }
-
-
 }
 
 // Drop.
@@ -112,7 +108,6 @@ impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
 // store the Rcs as raw pointers they won't drop automatically.
 impl<T: IntrusivelyQueueable> Drop for IntrusiveQueue<T> {
     fn drop(&mut self) {
-
         // Pop everything off the queue.
         while self.pop_element().is_some() {}
     }
@@ -126,18 +121,23 @@ pub trait IntrusivelyQueueable {
     fn set_queue_next(&self, element: Option<NonNull<Self>>);
 }
 
-
 // Unit tests for IntrusiveQueue type and IntrusivelyQueueable trait.
 #[cfg(test)]
 mod tests {
     use core::cell::Cell;
-    use std::{ptr::NonNull, rc::Rc};
+    use std::{
+        ptr::NonNull,
+        rc::Rc
+    };
 
-    use super::{IntrusiveQueue, IntrusivelyQueueable};
+    use super::{
+        IntrusiveQueue,
+        IntrusivelyQueueable
+    };
 
     // A test element.
     // This supports the IntrusivelyQueueable trait, so it can be put on an IntrusiveQueue.
-    pub struct TestThingy{
+    pub struct TestThingy {
         // Support for IntrusivelyQueueable trait.
         next: Cell<Option<NonNull<TestThingy>>>,
 
@@ -147,7 +147,10 @@ mod tests {
 
     impl TestThingy {
         fn new(value: u32) -> Self {
-            TestThingy { next: Cell::new(None), data: value}
+            TestThingy {
+                next: Cell::new(None),
+                data: value,
+            }
         }
     }
 

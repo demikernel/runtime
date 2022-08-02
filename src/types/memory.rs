@@ -9,7 +9,7 @@
 
 use ::libc::{
     c_void,
-    sockaddr_in,
+    sockaddr,
 };
 
 //==============================================================================
@@ -40,5 +40,5 @@ pub struct demi_sgarray_t {
     pub sga_buf: *mut c_void,
     pub sga_numsegs: u32,
     pub sga_segs: [demi_sgaseg_t; DEMI_SGARRAY_MAXLEN],
-    pub sga_addr: sockaddr_in,
+    pub sga_addr: sockaddr,
 }

@@ -1,40 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-use core::{
-    marker::PhantomData,
-    mem,
-};
 use std::{
     ptr::NonNull,
     rc::Rc,
-    mem::ManuallyDrop
+    marker::PhantomData,
+    mem,
+    mem::ManuallyDrop,
 };
 
 // An intrusive singly-linked list (FIFO queue) with owned elements.
 #[derive(Debug)]
 pub struct IntrusiveQueue<T: IntrusivelyQueueable> {
+    // Pointer to the first element in the queue.
     front: Option<NonNull<T>>,
+    // Pointer to the last element in the queue.
     back: Option<NonNull<T>>,
+    // Length of the queue in elements.
     len: usize,
+    // Hint to compiler that this struct "owns" an Rc<T> (for safety determinations).
     phantom: PhantomData<Rc<T>>,
 }
 
 impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
     // Create an empty IntrusiveQueue.
-    #[allow(dead_code)]
     #[inline]
     pub const fn new() -> Self {
         IntrusiveQueue { front: None, back: None, len: 0, phantom: PhantomData }
     }
 
-    #[allow(dead_code)]
     #[inline]
     pub fn is_empty(&self) -> bool {
         self.front.is_none()
     }
 
-    #[allow(dead_code)]
     #[inline]
     pub fn len(&self) -> usize {
         self.len
@@ -42,7 +41,6 @@ impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
 
     // Pop the first element off the front of the queue.
     // Call this pop_front to match VecDequeue?
-    #[allow(dead_code)]
     pub fn pop_element(&mut self) -> Option<Rc<T>> {
 
         if self.front.is_none() {
@@ -76,7 +74,6 @@ impl<T: IntrusivelyQueueable> IntrusiveQueue<T> {
 
     // Add the given element to the back of the queue.
     // Call this push_back to match VecDequeue?
-    #[allow(dead_code)]
     pub fn push_element(&mut self, added: Rc<T>) {
 
         // Ensure the new element's next pointer doesn't point to anything.

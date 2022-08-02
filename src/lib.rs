@@ -23,8 +23,7 @@ extern crate test;
 // Exports
 //==============================================================================
 
-mod collections;
-
+pub mod collections;
 pub mod fail;
 pub mod logging;
 pub mod memory;
